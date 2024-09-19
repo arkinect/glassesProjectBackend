@@ -21,14 +21,15 @@ const SiteHeader: React.FC<props> = ({}) => {
   };
 
   return (
-      <div className={"header-frame flexbox"}>
-      <div className={"flexbox-internal"}> {/*Left group*/}
-        <img src='' className={"logo-placeholder"}></img> {/*This will become some kind of logo*/}
-        <div className={"font-website-title"}>Website name</div>
+      <div className={"header_frame flexbox"}>
+      <div className={"flexbox_internal"}> {/*Left group*/}
+        <img src='' className={"logo_placeholder"}></img> {/*This will become some kind of logo*/}
+        <div className={"font_website_title"}>Website name</div>
       </div>
 
-      <div className={"flexbox-internal"}> {/*Right group*/}
+      <div className={"flexbox_internal"}> {/*Right group*/}
           <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
+          <div className='buffer_horizontal'></div>
           <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
       </div> 
     </div>

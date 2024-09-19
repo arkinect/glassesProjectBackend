@@ -1,0 +1,21 @@
+// variables
+
+// spacing
+.spacing_page_margins {
+    padding-top: 2vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+.grid_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+// text
+
+// buttons
+
+// animations
+

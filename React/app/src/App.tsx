@@ -4,6 +4,8 @@ import './App.css';
 import PrimaryButton from './components/primitives/PrimaryButton';
 import MarketPage from './pages/MarketPage';
 
+import testData from './TestData/testData.json'
+
 function App() {
 
   const onClick = () => {
@@ -19,8 +21,8 @@ function App() {
 
     <Router>
       <Routes>
-        <Route path="/" element={<PrimaryButton text='This is a standin for a blank page' handleClick={onClick}/>}/>
-        <Route path="/market" element={<MarketPage></MarketPage>}/>
+        <Route path="/" element={<MarketPage testData={Object.values(testData.testArray1)}></MarketPage>}/>
+        <Route path="/market" element={<MarketPage testData={Object.values(testData.testArray1)}></MarketPage>}/>
       </Routes>
     </Router>
     // </div>
