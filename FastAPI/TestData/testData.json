@@ -1,7 +1,7 @@
 {
     "testArray1": {
       "001": {
-        "prescription": "ABCD",
+        "prescription": "BBCD",
         "owner_name": "Mat",
         "contact": "123-456-7890",
         "location": {
