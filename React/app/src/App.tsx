@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
-import PrimaryButton from './components/primitives/PrimaryButton';
+import ProfilePage from './pages/ProfilePage';
 import MarketPage from './pages/MarketPage';
 
 import testData from './TestData/testData.json'
@@ -23,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MarketPage testData={Object.values(testData.testArray1)}></MarketPage>}/>
         <Route path="/market" element={<MarketPage testData={Object.values(testData.testArray1)}></MarketPage>}/>
+        <Route path="/profile" element={<ProfilePage></ProfilePage>}/>
       </Routes>
     </Router>
     // </div>
