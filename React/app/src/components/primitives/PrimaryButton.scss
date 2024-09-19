@@ -4,15 +4,17 @@
 // spacing
 
 // text
+.font_button {
+    color: var(--offWhite);
+    font-size: var(--fontSizeDefault);
+}
 
 // buttons
 .button_default {
     background-color: var(--emphasis);
-    color: var(--offWhite);
     padding: 10px 20px;
     border: none;
     border-radius: 25px;
-    font-size: var(--fontSizeDefault);
     cursor: pointer;
     transition: background-color 0.3s ease;
 

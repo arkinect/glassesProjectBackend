@@ -12,3 +12,7 @@ COPY ./app ./
 EXPOSE 3000
 
 CMD ["npm", "start"]
+
+# might need to uninstall and reinstall sass, npm uninstall node-sass, npm install --save-dev sass
+# npm install --save-dev @types/react-router-dom
+# npm install react-router-dom

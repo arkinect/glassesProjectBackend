@@ -1,6 +1,6 @@
 // imports
 import React from 'react';
-import './PrimaryButton.scss'
+import './LinkButton.scss'
 
 // prop interface
 interface props {
@@ -9,14 +9,14 @@ interface props {
 }
 
 // class
-const PrimaryButton: React.FC<props> = ({ text, handleClick}) => {
+const LinkButton: React.FC<props> = ({ text, handleClick}) => {
     return (
       <button 
-        className="button_default font_button"
+        className="button_link font_button_link"
         onClick={handleClick}>
           {text}
       </button>
     );
   };
 
-export default PrimaryButton;
+export default LinkButton;
