@@ -1,8 +1,12 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 import json
-from typing import List, Dict
+from typing import List, Dict, Annotated
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+# import models
+# from database import engine, sessionLocal
 
 # Load test data
 try:
@@ -31,6 +35,8 @@ class Posting(BaseModel):
 
 # app
 app = FastAPI()
+
+# models.Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware, 
