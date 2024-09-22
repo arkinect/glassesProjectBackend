@@ -5,8 +5,8 @@ from typing import List, Dict, Annotated
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-# import models
-# from database import engine, sessionLocal
+import models
+from database import engine,sessionLocal
 
 # Load test data
 try:
@@ -33,14 +33,34 @@ class Posting(BaseModel):
     contact: str    
     location: Location
 
+# define database models
+class UserBase(BaseModel):
+    username: str
+    defaultContact: str
+    defaultLocation: str
+
+class PostBase(BaseModel):
+    pass
+
+
+# dependencies
+def get_db():
+    db = sessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+db_dependency = Annotated[Session, Depends(get_db)]
+
 # app
 app = FastAPI()
 
-# models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware, 
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000"],    
     allow_methods=["GET"]
 )
 
@@ -50,3 +70,23 @@ def get_glasses_market() -> List[Posting]:
     if not testData:
         raise HTTPException(status_code=500, detail="No data available.")
     return list(testData.values())
+
+@app.post("/users/", status_code=status.HTTP_201_CREATED)
+async def create_user(user: UserBase, db: db_dependency):
+    db_user = models.User(**user.model_dump())
+    db.add(db_user)
+    db.commit()
+
+@app.get("/market/", status_code=status.HTTP_200_OK)
+async def marketAll(db: db_dependency):
+    posts = db.query(models.PostMarket)
+    if posts is None:
+        raise HTTPException(status_code=404, detail="No posts")
+    return posts
+
+@app.get("/market/{prescription}", status_code=status.HTTP_200_OK)
+async def marketAll(prescription: int, db: db_dependency):
+    posts = db.query(models.PostMarket).filter(models.PostMarket.sphere == prescription)
+    if posts is None:
+        raise HTTPException(status_code=404, detail="No posts of that prescription found")
+    return posts
