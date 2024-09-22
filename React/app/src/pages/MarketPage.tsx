@@ -10,13 +10,20 @@ interface props {
 }
 
 // return data interface
-interface Posting {
+interface TestPosting {
   prescription: string,
   owner_name: string,
   contact: string,
   location: {
     city: string
       }
+}
+
+interface Posting {
+  postNumb: number,
+  location: string,
+  sphere: number,
+  flagged: boolean,
 }
 
 // class
@@ -27,7 +34,7 @@ const MarketPage: React.FC<props> = ({testData}) => {
 
   useEffect(() => {
     console.log('Fetching data from backend');
-    fetch('http://localhost:8000/api/market/')
+    fetch('http://localhost:8000/market/')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -49,8 +56,11 @@ const MarketPage: React.FC<props> = ({testData}) => {
             <div>Error fetching market data: {error}</div>
           ):(
             <div className={"grid_container"}>
-            {postings.map((glasses: { location: { city: string; }; prescription: string; }) => (
+            {/* {postings.map((glasses: { location: { city: string; }; prescription: string; }) => (
               <MarketTile location={glasses.location.city} sphere={glasses.prescription}></MarketTile>
+            ))}    */}
+            {postings.map((glasses: { location: string; sphere: number}) => (
+              <MarketTile location={glasses.location} sphere={glasses.sphere}></MarketTile>
             ))}   
           </div>  
           )}

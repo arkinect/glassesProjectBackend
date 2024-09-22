@@ -40,8 +40,15 @@ class UserBase(BaseModel):
     defaultLocation: str
 
 class PostBase(BaseModel):
-    pass
-
+    flagged: bool
+    sphere: float
+    cylinder: float
+    axis: float
+    prism: float
+    comment: str
+    user: str
+    location: str
+    contact: str
 
 # dependencies
 def get_db():
@@ -61,7 +68,7 @@ models.Base.metadata.create_all(bind=engine)
 app.add_middleware(
     CORSMiddleware, 
     allow_origins=["http://localhost:3000"],    
-    allow_methods=["GET"]
+    allow_methods=["GET, POST"]
 )
 
 @app.get('/api/market/', response_model=List[Posting])
@@ -79,14 +86,24 @@ async def create_user(user: UserBase, db: db_dependency):
 
 @app.get("/market/", status_code=status.HTTP_200_OK)
 async def marketAll(db: db_dependency):
-    posts = db.query(models.PostMarket)
+    posts = db.query(models.PostMarket).all()
     if posts is None:
         raise HTTPException(status_code=404, detail="No posts")
     return posts
 
 @app.get("/market/{prescription}", status_code=status.HTTP_200_OK)
 async def marketAll(prescription: int, db: db_dependency):
-    posts = db.query(models.PostMarket).filter(models.PostMarket.sphere == prescription)
+    posts = db.query(models.PostMarket).filter(models.PostMarket.sphere == prescription).all()
     if posts is None:
         raise HTTPException(status_code=404, detail="No posts of that prescription found")
     return posts
+
+@app.post("/newPost/", status_code=status.HTTP_201_CREATED)
+async def createPost(post: PostBase, db: db_dependency):
+    db_marketPosts = models.PostMarket(location = post.location, sphere = post.sphere, flagged = post.flagged)
+    db.add(db_marketPosts)
+    
+    db_detailedPosts = models.PostDetailed(**post.model_dump())
+    db.add(db_detailedPosts)
+
+    db.commit()

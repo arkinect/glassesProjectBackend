@@ -6,7 +6,7 @@ import './MarketTile.scss';
 // prop interface
 interface props {
   location: string;
-  sphere: string;
+  sphere: number;
 //   imageLocation: string;
 }
 

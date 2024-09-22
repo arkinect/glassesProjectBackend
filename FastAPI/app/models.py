@@ -16,6 +16,7 @@ class PostMarket(Base):
     postNumb = Column(Integer, primary_key=True)
     location = Column(String(50)) # Etobicoe - Toronto ON
     sphere = Column(Float, index=True) # overall prescription
+    flagged = Column(Boolean)
     
 class PostDetailed(Base):
     __tablename__ = 'detailedInfo' 
