@@ -20,6 +20,10 @@ const SiteHeader: React.FC<props> = ({}) => {
       navigate('/profile'); 
   };
 
+  const navToNewListing = () => {
+    navigate('/newListing'); 
+  };
+
   return (
       <div className={"header_frame flexbox_header"}>
       <div className={"flexbox_internal"}> {/*Left group*/}
@@ -28,9 +32,11 @@ const SiteHeader: React.FC<props> = ({}) => {
       </div>
 
       <div className={"flexbox_internal"}> {/*Right group*/}
-          <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
-          <div className='buffer_horizontal'></div>
-          <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
+        <LinkButton text='New Post' handleClick={navToNewListing}></LinkButton>
+        <div className='buffer_horizontal'></div>
+        <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
+        <div className='buffer_horizontal'></div>
+        <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
       </div> 
     </div>
   );

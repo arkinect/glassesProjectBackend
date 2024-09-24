@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
 import ProfilePage from './pages/ProfilePage';
 import MarketPage from './pages/MarketPage';
+import NewListingPage from './pages/newListingPage';
 
 import testData from './TestData/testData.json'
+import { isPostfixUnaryExpression } from 'typescript';
 
 function App() {
 
@@ -28,6 +30,7 @@ function App() {
         <Route path="/" element={<MarketPage testData={Object.values(testData.testArray1)}></MarketPage>}/>
         <Route path="/market" element={<MarketPage testData={Object.values(testData.testArray1)}></MarketPage>}/>
         <Route path="/profile" element={<ProfilePage></ProfilePage>}/>
+        <Route path="/newListing" element={<NewListingPage></NewListingPage>}/>
       </Routes>
     </Router>
   );
