@@ -1,0 +1,33 @@
+// variables
+
+// spacing
+
+// text
+.font_button_link {
+    font-size: var(--fontSizeEmphasis);
+    color: var(--emphasis);
+}
+
+// buttons
+.button_link {
+    background: none;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        color: var(--softFocus);
+    }
+
+    &:active { // in the second it's clicked
+        color: var(--emphasis); 
+    }
+
+    &:disabled {
+        color: var(--disabledText);
+    }
+}
+
+
+// animations

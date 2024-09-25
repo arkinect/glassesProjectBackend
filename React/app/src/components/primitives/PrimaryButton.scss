@@ -1,0 +1,35 @@
+// variables
+
+
+// spacing
+
+// text
+.font_button {
+    color: var(--offWhite);
+    font-size: var(--fontSizeDefault);
+}
+
+// buttons
+.button_default {
+    background-color: var(--emphasis);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: var(--softFocus);
+    }
+
+    &:active { // in the second it's clicked
+        background-color: var(--emphasis); 
+    }
+
+    &:disabled {
+        background-color: var(--disabled);
+        color: var(--disabledText);
+    }
+}
+
+// animations

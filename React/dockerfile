@@ -1,0 +1,18 @@
+FROM node:22.7-slim
+
+WORKDIR /app
+
+COPY ./app/package.json ./
+COPY ./app/package-lock.json ./
+
+RUN npm install
+
+COPY ./app ./
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+# might need to uninstall and reinstall sass, npm uninstall node-sass, npm install --save-dev sass
+# npm install --save-dev @types/react-router-dom
+# npm install react-router-dom

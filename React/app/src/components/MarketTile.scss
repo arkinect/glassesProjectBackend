@@ -1,0 +1,51 @@
+// variables
+
+// spacing
+.flexbox {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flexbox_internal {
+    display: flex;
+}
+
+.block_purple {
+    background-color: var(--contrast);
+    padding: 3px;
+}
+
+.border_glasses_tile {
+    border-radius: 5px; 
+    overflow: hidden;
+}
+
+.image_placeholder {
+    width: 100%;
+    // aspect-ratio: 1/1;
+    aspect-ratio: 1;
+    background-color: black;
+}
+
+// text
+.font_prescription {
+    font-family: Arial, Helvetica, sans-serif ;
+    font-weight: 700;
+    font-size: 16pt;
+}
+
+.font_location {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 16;
+}
+
+// buttons 
+.button_tile {
+    background: none;
+    border: none;
+}
+
+// animations
