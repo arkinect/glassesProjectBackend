@@ -3,3 +3,4 @@ venv/
 notes.txt
 FastAPI/app/__pycache__/
 .env
+__pycache__/
