@@ -17,32 +17,20 @@ const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, handleCh
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
-        handleChange(event);
+        handleChange();
     };
-
-    // clear input on focus
-    const handleFocus = () => {
-        if (inputValue === '') {
-            setInputValue('');
-        }
-    };
-
-    const handleBlur = () => {
-        if (inputValue === '') {
-            setInputValue(''); // optional: reset value on blur if empty
-        }
-    };
-
-
 
     return (
-        <input
-            type="text"
-            name={groupName}
-            value={inputLabel}
-            onChange={handleChange}
-            required = {isRequired}
-        />
+        <div className={"input_border"}>
+            {/* {inputLabel} */}
+            <input className={"input-field"}
+                type="text"
+                name={groupName}
+                onChange={handleInputChange}
+                required = {isRequired}
+                placeholder={inputLabel}
+            />
+        </div>
   );
 };
 

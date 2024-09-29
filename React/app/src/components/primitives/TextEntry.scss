@@ -1,9 +1,78 @@
 
 // variables
+$borderWidth: 2px;
 
 // spacing
+.input_border {
+    position: relative;
+    display: inline-block;
+    margin-top: 5px; // possibly irrelevant 
+    overflow: hidden;
+}
+
+.input_border:focus-within::after {
+    visibility: visible;
+    opacity: 1;
+    width: 40%; // how wide the gap in border will be
+    left: 0;
+    transform: translateX(10px);
+}
+
+.input_border::after {
+    content: "";
+    position: absolute;
+    left: 15%;
+    width: 0;
+    height: $borderWidth;
+    background-color: var(--offWhite);
+    z-index: 1;
+    transition: width 0.5s ease, left 0.5s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+// .input_border:not(:focus-within)::after {
+//     opacity: 0;
+//     visibility: hidden;
+//     transform: translateX(-50%) scaleX(0); /* Scale back to 0 from the center */
+// }
+
+// .input_border:not(:focus-within)::after {
+//     width: 0; /* Reset width to 0 */
+//     left: 15%; /* Reset left position */
+//     opacity: 0; /* Make it hidden */
+//     visibility: hidden; /* Hide it when unfocused */
+// }
+
+.input-field {
+    padding: 5px;
+    background-color: var(--offWhite); /* Background color */
+    border: $borderWidth solid var(--greyContrast); /* Border */
+    border-radius: 8px; /* Rounded corners */
+    outline: none;
+    transition: border 0.3s ease-in-out;
+
+    &::placeholder {
+        color: #aaa;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    &:focus {
+        border-color: #007bff; /* Change border color on focus */
+    }
+  }
+
 
 // text
+.font_placeholder {
+    font-size: var(--fontSizeDefault);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.font_TextEntryBorder {
+
+}
 
 // buttons
 
