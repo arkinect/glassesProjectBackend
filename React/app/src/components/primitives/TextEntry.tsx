@@ -21,7 +21,7 @@ const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, handleCh
     };
 
     return (
-        <div className={"input_border"}>
+        <div className={"input_border"} data-placeholder={inputLabel}>
             {/* {inputLabel} */}
             <input className={"input-field"}
                 type="text"

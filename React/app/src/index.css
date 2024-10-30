@@ -11,6 +11,8 @@
   --fontSizeDefault: 16px;
   --fontSizeEmphasis: 20px;
   --fontSizeHeading: 30px;
+
+  --fontFamily: Arial, Helvetica, sans-serif;
 }
 
 /* spacing */

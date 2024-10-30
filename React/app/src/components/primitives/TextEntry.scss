@@ -13,15 +13,15 @@ $borderWidth: 2px;
 .input_border:focus-within::after {
     visibility: visible;
     opacity: 1;
-    width: 40%; // how wide the gap in border will be
+    width: 30%; // how wide the gap in border will be
     left: 0;
     transform: translateX(10px);
 }
 
 .input_border::after {
-    content: "";
+    content: attr(data-placeholder);
     position: absolute;
-    left: 15%;
+    left: 15%; // how far through the input element the animation starts
     width: 0;
     height: $borderWidth;
     background-color: var(--offWhite);
@@ -29,20 +29,15 @@ $borderWidth: 2px;
     transition: width 0.5s ease, left 0.5s ease;
     opacity: 0;
     visibility: hidden;
+
+    /* Text Styling */
+    font-size: 8px;
+    color: var(--softFocus);
+    font-weight: bold;
+    font-family: var(--fontFamily);
+    text-transform: uppercase;
+    padding: 2px;
 }
-
-// .input_border:not(:focus-within)::after {
-//     opacity: 0;
-//     visibility: hidden;
-//     transform: translateX(-50%) scaleX(0); /* Scale back to 0 from the center */
-// }
-
-// .input_border:not(:focus-within)::after {
-//     width: 0; /* Reset width to 0 */
-//     left: 15%; /* Reset left position */
-//     opacity: 0; /* Make it hidden */
-//     visibility: hidden; /* Hide it when unfocused */
-// }
 
 .input-field {
     padding: 5px;
@@ -53,26 +48,20 @@ $borderWidth: 2px;
     transition: border 0.3s ease-in-out;
 
     &::placeholder {
-        color: #aaa;
-        transition: all 0.3s ease-in-out;
+        color: var(--greyContrast);
     }
     
     &:focus {
-        border-color: #007bff; /* Change border color on focus */
+        border-color: var(--softFocus); /* Change border color on focus */
+    }
+
+    &:focus::placeholder {
+        opacity: 0; /* Hide the placeholder on focus */
     }
   }
 
 
 // text
-.font_placeholder {
-    font-size: var(--fontSizeDefault);
-    font-family: 'Arial', sans-serif;
-    color: #333;
-}
-
-.font_TextEntryBorder {
-
-}
 
 // buttons
 
