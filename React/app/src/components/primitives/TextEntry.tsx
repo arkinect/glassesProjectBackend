@@ -7,7 +7,7 @@ interface props {
     inputLabel: string;
     isRequired: boolean;
     groupName: string;
-    handleChange : () => void;
+    handleChange : (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 // class
@@ -17,7 +17,7 @@ const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, handleCh
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
-        handleChange();
+        handleChange(event);
     };
 
     return (

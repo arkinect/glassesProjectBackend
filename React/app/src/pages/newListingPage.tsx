@@ -4,8 +4,6 @@ import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
 import ListingForm from '../components/listingForm';
 
-import TextEntry from '../components/primitives/TextEntry';
-
 // prop interface
 interface props {
     
@@ -24,8 +22,7 @@ const NewListingPage: React.FC<props> = ({}) => {
         <SiteHeader></SiteHeader>
       </header>
       <main>
-        {/* <ListingForm></ListingForm> */}
-        <TextEntry inputLabel='Name' isRequired={true} groupName='NameInput' handleChange={handleChange}></TextEntry>
+        <ListingForm></ListingForm>
       </main>
     </div>
   );

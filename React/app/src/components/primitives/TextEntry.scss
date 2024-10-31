@@ -13,9 +13,9 @@ $borderWidth: 2px;
 .input_border:focus-within::after {
     visibility: visible;
     opacity: 1;
-    width: 30%; // how wide the gap in border will be
+    width: min-content; // how wide the gap in border will be
     left: 0;
-    transform: translateX(10px);
+    transform: translateX(10px) translateY(-3px);
 }
 
 .input_border::after {
@@ -26,7 +26,7 @@ $borderWidth: 2px;
     height: $borderWidth;
     background-color: var(--offWhite);
     z-index: 1;
-    transition: width 0.5s ease, left 0.5s ease;
+    transition: width 0.5s ease, opacity 0.1 ease;
     opacity: 0;
     visibility: hidden;
 

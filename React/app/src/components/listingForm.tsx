@@ -1,6 +1,8 @@
 // imports
 import React, { useEffect, useState } from 'react';
 import './listingForm.scss';
+import TextEntry from './primitives/TextEntry';
+import PrimaryButton from './primitives/PrimaryButton';
 
 // prop interface
 interface props {
@@ -18,7 +20,7 @@ const ListingForm: React.FC<props> = ({}) => {
         city: ''
     });
 
-      // Handle input change
+    // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
@@ -46,53 +48,42 @@ const ListingForm: React.FC<props> = ({}) => {
             <h1>New Glasses Listing</h1>
 
             <div>
-                <input
-                type="text"
-                id="prescription"
-                name="prescription"
-                value={formData.prescription}
-                onChange={handleChange}
-                required
-                />
+                <TextEntry 
+                    inputLabel='Prescription'
+                    isRequired={true}
+                    groupName='prescription'
+                    handleChange={handleChange}
+                ></TextEntry>
             </div>
 
             <div>
-                <label htmlFor="ownerName">Owner Name:</label>
-                <input
-                type="text"
-                id="ownerName"
-                name="ownerName"
-                value={formData.ownerName}
-                onChange={handleChange}
-                required
-                />
+                <TextEntry 
+                    inputLabel='Name'
+                    isRequired={true}
+                    groupName='ownerName'
+                    handleChange={handleChange}
+                ></TextEntry>
             </div>
 
             <div>
-                <label htmlFor="contact">Contact:</label>
-                <input
-                type="text"
-                id="contact"
-                name="contact"
-                value={formData.contact}
-                onChange={handleChange}
-                required
-                />
+                <TextEntry 
+                    inputLabel='Contact'
+                    isRequired={true}
+                    groupName='contact'
+                    handleChange={handleChange}
+                ></TextEntry>
             </div>
 
             <div>
-                <label htmlFor="city">City:</label>
-                <input
-                type="text"
-                id="city"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                required
-                />
+                <TextEntry 
+                    inputLabel='City'
+                    isRequired={true}
+                    groupName='city'
+                    handleChange={handleChange}
+                ></TextEntry>
             </div>
 
-            <button type="submit">Submit</button>
+            <PrimaryButton text='Post Glasses' handleClick={NaN}></PrimaryButton>
         </form>
   );
 };
