@@ -1,5 +1,9 @@
 # glassesProjectBackend
 
+This is no longer just a repo for the backend
+
+The goal is to provide a centralized place for individuals and charitable organizations to post used glasses for free with the goal of helping underinsured Canadians find glasses
+
 # Stack
 MySql
 FastAPI
@@ -50,3 +54,13 @@ The structure for the front end is broadly
     the goal is to be able to change the sites colours on a dime, as rn I'm just using different shades of purple. ideally the scss of primitive or larger components shouldnt use any hard coded colours or fonts (including text sizes)
 
 *** this may change
+
+# Todo
+1. adding listings via listing page
+2. add component for a prescription entry using cells
+3. fix market page (idk y it isnt working)
+4. 
+
+# Feature list
+1. investigate auth0 to add accounts
+2. ml model to predict prescription using pic through glasses (tissue box?)
