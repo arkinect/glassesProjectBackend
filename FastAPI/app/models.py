@@ -1,6 +1,8 @@
 from sqlalchemy import Boolean, Column, Integer, String, Float, JSON
 from database import Base
 
+# this file holds sql alchemy models
+
 class User(Base):
     __tablename__ = 'users'
 

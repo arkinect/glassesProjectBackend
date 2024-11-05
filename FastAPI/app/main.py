@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 import models
 from database import engine,sessionLocal
 
-from customSchemas import Posting, PostBase, UserBase, Location
+from glassesProjectBackend.FastAPI.app.schemas import Posting, PostBase, UserBase, Location
 
 ### Load test data
 try:

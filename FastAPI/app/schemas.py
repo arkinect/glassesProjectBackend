@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional
 
+# this file holds pydantic schemas for data validation
+
 ### helper schemas
 # model for one eye
 class _EyePrescription(BaseModel):
