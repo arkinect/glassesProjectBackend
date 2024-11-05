@@ -11,18 +11,15 @@ interface props {
 
 // class
 const NewListingPage: React.FC<props> = ({}) => {
-
-    const handleChange = () => {
-        console.log("Name input was changed");
-    }
-
     return (
       <div>
       <header>
         <SiteHeader></SiteHeader>
       </header>
       <main>
-        <ListingForm></ListingForm>
+        <div className={"spacing_page_margins"}> {/* page margins  */}
+          <ListingForm></ListingForm>
+        </div>
       </main>
     </div>
   );

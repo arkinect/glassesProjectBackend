@@ -11,32 +11,38 @@ Node
 React
 TypeScript
 
-# first time setup
-Update structure of mysql tables to reflect models.py (untested, confirm when used next)
-    alembic revision --autogenerate -m "message"
-    alembic upgrade head
+# First Time Setup
+0. Create and activate venv, installing dependencies as needed
+1. Install and setup mySQL (and optionally mySQL Workbench)
+2. Create a .env file in glassesProjectBackend/.env with the following environment variables
+    - MYSQL_URL="mysql+pymysql://root:<mySQL password>@localhost:<port>/<db name>"   
+3. Update structure of mysql tables to reflect models.py (untested, confirm when used next)
+    - cd to glassesProjectBackend
+    - alembic revision --autogenerate -m "message"
+    - alembic upgrade head
 
 # Starting the app
 start mySql 
-    services/mysql80/start
+    In windows, navigate to: services/mysql80/start
     ensure .env file is correct
 
 start venv
+    cd to glassesProjectBackend
     venv/scripts activate
 
 start backend
-    navigate to FastAPI/App
+    cd to FastAPI/App
     uvicorn main:app --reload
 
 start frontend
-    navigate to React/App
+    cd to React/App
     npm run start
 
-# other
+# Other
 See Autogen documentation for my FastAPI endpoints:
     http://127.0.0.1:8000/docs
 
-# notes for developers
+# Notes for developers
 
 I have yet to decide on a complete structure for the backend. I'm just making it up as I go along
 
@@ -61,6 +67,7 @@ The structure for the front end is broadly
 3. fix market page (idk y it isnt working)
 4. 
 
-# Feature list
+# Feature List
 1. investigate auth0 to add accounts
 2. ml model to predict prescription using pic through glasses (tissue box?)
+3. data validation on listing form

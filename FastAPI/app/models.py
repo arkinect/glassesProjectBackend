@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, String, Float
+from sqlalchemy import Boolean, Column, Integer, String, Float, JSON
 from database import Base
 
 class User(Base):
@@ -7,7 +7,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(50), unique=True)
     flags = Column(Integer) # count flagged posts
-    defaultContact = Column(String(50)) # (416) 000-1234
+    defaultContact = Column(String(50), nullable=True) # (416) 000-1234
     defaultLocation = Column(String(50)) # Etobicoe - Toronto ON
 
 class PostMarket(Base):
@@ -15,24 +15,22 @@ class PostMarket(Base):
 
     postNumb = Column(Integer, primary_key=True)
     location = Column(String(50)) # Etobicoe - Toronto ON
-    sphere = Column(Float, index=True) # overall prescription
+    sphere = Column(Float, index=True) # most important part prescription. Use Right eye if theyre different
     flagged = Column(Boolean)
     
 class PostDetailed(Base):
     __tablename__ = 'detailedInfo' 
 
-    # meta data on the post
+    # meta data about the post
     postNumb = Column(Integer, primary_key=True, index=True) # lookup for finding post when clicked
     flagged = Column(Boolean) # whether or not the post has been flagged by the community
 
-    # on the posted item
-    sphere = Column(Float) # overall prescription
-    cylinder = Column(Float) # correction for astygmatism
-    axis = Column(Float) # correction for astygmatism
-    prism = Column(Float) # correction for crossed eyes
-    comment = Column(String(100)) # these were my son's glasses
+    # about the posted item
+    prescription = Column(JSON, nullable=True) # to hold all prescription data
+    pseudoPrescription = Column(Float, nullable=True) # in case they dont know their prescription
+    comment = Column(String(100), nullable=True) # these were my son's glasses
 
-    # on the poster
+    # about the poster
     user = Column(String(50)) # username associated with this post
     location = Column(String(50)) # Etobicoe - Toronto ON
-    contact = Column(String(50)) # (416) 000-1234
+    contact = Column(String(50), nullable=True) # (416) 000-1234
