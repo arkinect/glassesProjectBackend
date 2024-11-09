@@ -3,22 +3,52 @@ import React, { useEffect, useState } from 'react';
 import './listingForm.scss';
 import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
+import { STATUS_CODES } from 'http';
 
 // prop interface
 interface props {
     
 }
 
+// prescription interface
+interface Prescription {
+    left_eye?: { 
+      sphere: number | null
+      cylinder: number | null 
+      axis: number | null
+      prism: number | null
+      base: string | null
+      add: number | null
+    };
+    right_eye?: { 
+      sphere: number | null
+      cylinder: number | null 
+      axis: number | null
+      prism: number | null
+      base: string | null
+      add: number | null
+     };
+  }
+  
+  // form interface
+  interface NewPostForm {
+    prescription?: Prescription | null;
+    pseudoPrescription: number | null;
+    comment: string | null;
+    location: string;
+    contact: string;
+  }
+
 // class
 const ListingForm: React.FC<props> = ({}) => {
 
     // define submission structure
-    const [formData, setFormData] = useState({
-        prescription: '',
-        pseudoPrescription: '',
-        ownerName: '',
-        contact: '',
-        city: ''
+    const [formData, setFormData] = useState<NewPostForm>({
+        prescription: null,
+        pseudoPrescription: null,
+        comment: '',
+        location: '',
+        contact: ''
     });
 
 
@@ -32,53 +62,50 @@ const ListingForm: React.FC<props> = ({}) => {
     // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({
-        ...formData,
-        [name]: value
-        });
+
+        // Update formData based on field name
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     };
 
-    // Handle form submission
-    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     // You can add your data submission logic here
-    //     console.log('Form submitted:', formData);
-    //     // Reset form fields after submission if needed
-    //     setFormData({
-    //     prescription: '',
-    //     pseudoPrescription: '',
-    //     ownerName: '',
-    //     contact: '',
-    //     city: ''
-    //     });
-    // };
-
-
+    // handle submit button
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        fetch('http://your-backend-url/api/listings', { // Update with your backend URL
+
+        const updatedFormData = { ...formData };
+
+        if (updatedFormData.pseudoPrescription) {
+            updatedFormData.pseudoPrescription = parseFloat(updatedFormData.pseudoPrescription.toString());
+        }
+        console.log(JSON.stringify(updatedFormData))
+        fetch('http://localhost:8000/postCreate/', { // Update with your backend URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData), // Convert the form data to JSON
+            body: JSON.stringify(updatedFormData),
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
+                return response.json().then(data => ({ status: response.status, data }));
             })
-            .then(data => {
-                console.log('Response from backend:', data);
-            setFormData({
-                prescription: '',
-                pseudoPrescription: '',
-                ownerName: '',
-                contact: '',
-                city: ''
-            });
-        })
+            .then(({status, data}) => {
+                // console.log('Response from backend:', status, data);
+                setFormData({
+                    prescription: null,
+                    pseudoPrescription: 0,
+                    comment: '',
+                    location: '',
+                    contact: ''
+                });
+                if (status === 201) {
+                    alert("Glasses Posted Successfully!");
+                }
+            })
         .catch(error => {
             console.error('Error submitting form:', error);
         });
@@ -106,18 +133,20 @@ const ListingForm: React.FC<props> = ({}) => {
                     <TextEntry 
                         inputLabel='Prescription'
                         isRequired={true}
-                        groupName={formData.prescription}
+                        groupName="pseudoPrescription"
                         handleChange={handleChange}
+                        displayValue={formData.pseudoPrescription}
                     ></TextEntry>
                 </div>
             )}
 
             <div>
                 <TextEntry 
-                    inputLabel='Name'
+                    inputLabel='Notes'
                     isRequired={true}
-                    groupName={formData.ownerName}
+                    groupName={"comment"}
                     handleChange={handleChange}
+                    displayValue={formData.comment}
                 ></TextEntry>
             </div>
 
@@ -125,8 +154,9 @@ const ListingForm: React.FC<props> = ({}) => {
                 <TextEntry 
                     inputLabel='Contact'
                     isRequired={true}
-                    groupName={formData.contact}
+                    groupName={"contact"}
                     handleChange={handleChange}
+                    displayValue={formData.contact}
                 ></TextEntry>
             </div>
 
@@ -134,12 +164,13 @@ const ListingForm: React.FC<props> = ({}) => {
                 <TextEntry 
                     inputLabel='City'
                     isRequired={true}
-                    groupName={formData.city}
+                    groupName={"location"}
                     handleChange={handleChange}
+                    displayValue={formData.location}
                 ></TextEntry>
             </div>
 
-            <PrimaryButton text='Post Glasses' handleClick={NaN}></PrimaryButton>
+            <PrimaryButton text='Post Glasses' handleClick={handleSubmit}></PrimaryButton>
         </form>
   );
 };

@@ -65,7 +65,7 @@ The structure for the front end is broadly
 1. adding listings via listing page
 2. add component for a prescription entry using cells
 3. fix market page (idk y it isnt working)
-4. 
+4. add option in new form to use default location or select a new one (this will have to poll a db for the users default location and make that visible on the front end)
 
 # Feature List
 1. investigate auth0 to add accounts

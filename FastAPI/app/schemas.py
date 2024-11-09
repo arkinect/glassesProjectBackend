@@ -1,8 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
 
-# this file holds pydantic schemas for data validation
-
 ### helper schemas
 # model for one eye
 class _EyePrescription(BaseModel):
@@ -18,29 +16,27 @@ class _Prescription(BaseModel):
     left_eye: _EyePrescription
     right_eye: _EyePrescription
 
-
-### get schemas
-class Location(BaseModel):
+class _Location(BaseModel):
     city: str
 
-class Posting(BaseModel):
+### get schemas
+
+class MarketPosting(BaseModel):
     prescription: str
     owner_name: str
     contact: str    
-    location: Location
+    location: _Location
 
-###  post schemas
-class UserBase(BaseModel):
+### post schemas
+class User(BaseModel):
     username: str
     defaultContact: str
     defaultLocation: str
 
-class PostBase(BaseModel):
-    flagged: bool
-    prescription: _Prescription
-    pseudoPrescription: float
+class NewPostForm(BaseModel):
+    prescription: Optional[_Prescription] = None
+    pseudoPrescription: Optional[float] = None
     comment: str
-    user: str
     location: str
     contact: str
 

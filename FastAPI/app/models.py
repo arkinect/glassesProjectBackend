@@ -1,7 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer, String, Float, JSON
 from database import Base
 
-# this file holds sql alchemy models
 
 class User(Base):
     __tablename__ = 'users'
@@ -12,7 +11,7 @@ class User(Base):
     defaultContact = Column(String(50), nullable=True) # (416) 000-1234
     defaultLocation = Column(String(50)) # Etobicoe - Toronto ON
 
-class PostMarket(Base):
+class MarketCard(Base):
     __tablename__ = 'marketInfo'
 
     postNumb = Column(Integer, primary_key=True)
@@ -20,7 +19,7 @@ class PostMarket(Base):
     sphere = Column(Float, index=True) # most important part prescription. Use Right eye if theyre different
     flagged = Column(Boolean)
     
-class PostDetailed(Base):
+class GlassesDetailed(Base):
     __tablename__ = 'detailedInfo' 
 
     # meta data about the post
