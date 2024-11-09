@@ -14,14 +14,6 @@ interface props {
 // class
 const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, displayValue, handleChange}) => {
 
-    // const [inputValue, setInputValue] = useState('');
-
-    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const value = event.target.value;
-    //     setInputValue(value);
-    //     handleChange(event);
-    // };
-
     const display = displayValue === null || displayValue === undefined ? '' : displayValue;
 
     return (

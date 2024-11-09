@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './listingForm.scss';
 import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
-import { STATUS_CODES } from 'http';
+import AlertModal from './primitives/AlertModal';
 
 // prop interface
 interface props {
@@ -50,7 +50,13 @@ const ListingForm: React.FC<props> = ({}) => {
         location: '',
         contact: ''
     });
+    
+    // handle modal state
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleModalClose = () => {
+        setIsModalOpen(false); // Close the modal when OK button is clicked
+    };
 
     // handle tick box
     const [isSpecific, setIsSpecific] = useState(false);
@@ -94,16 +100,17 @@ const ListingForm: React.FC<props> = ({}) => {
                 return response.json().then(data => ({ status: response.status, data }));
             })
             .then(({status, data}) => {
-                // console.log('Response from backend:', status, data);
-                setFormData({
-                    prescription: null,
-                    pseudoPrescription: 0,
-                    comment: '',
-                    location: '',
-                    contact: ''
-                });
+                console.log('Response from backend:', status, data);
                 if (status === 201) {
-                    alert("Glasses Posted Successfully!");
+                    // alert("Glasses Posted Successfully!");
+                    setIsModalOpen(true);
+                    setFormData({
+                        prescription: null,
+                        pseudoPrescription: 0,
+                        comment: '',
+                        location: '',
+                        contact: ''
+                    });
                 }
             })
         .catch(error => {
@@ -111,67 +118,75 @@ const ListingForm: React.FC<props> = ({}) => {
         });
     };
 
-
-
     return (
-        <form onSubmit={handleSubmit} className="data-entry-form">
-            <h1 className='font_formHeading'>New Glasses Listing</h1>
+        <div>
+            <form onSubmit={handleSubmit} className="data-entry-form">
+                <h1 className='font_formHeading'>New Glasses Listing</h1>
 
-            <label className='font_defaultText'>
-                <input
-                    type="checkbox"
-                    checked={isSpecific}
-                    onChange={handleCheckboxChange}
-                />
-                I know my prescription
-            </label>
+                <label className='font_defaultText'>
+                    <input
+                        type="checkbox"
+                        checked={isSpecific}
+                        onChange={handleCheckboxChange}
+                    />
+                    I know my prescription
+                </label>
 
-            {isSpecific ? (
-                <div>Blank div, this doesnt work yet</div>
-            ) : (
+                {isSpecific ? (
+                    <div>Blank div, this doesnt work yet</div>
+                ) : (
+                    <div>
+                        <TextEntry 
+                            inputLabel='Prescription'
+                            isRequired={true}
+                            groupName="pseudoPrescription"
+                            handleChange={handleChange}
+                            displayValue={formData.pseudoPrescription}
+                        ></TextEntry>
+                    </div>
+                )}
+
                 <div>
                     <TextEntry 
-                        inputLabel='Prescription'
+                        inputLabel='Notes'
                         isRequired={true}
-                        groupName="pseudoPrescription"
+                        groupName={"comment"}
                         handleChange={handleChange}
-                        displayValue={formData.pseudoPrescription}
+                        displayValue={formData.comment}
                     ></TextEntry>
                 </div>
-            )}
 
-            <div>
-                <TextEntry 
-                    inputLabel='Notes'
-                    isRequired={true}
-                    groupName={"comment"}
-                    handleChange={handleChange}
-                    displayValue={formData.comment}
-                ></TextEntry>
-            </div>
+                <div>
+                    <TextEntry 
+                        inputLabel='Contact'
+                        isRequired={true}
+                        groupName={"contact"}
+                        handleChange={handleChange}
+                        displayValue={formData.contact}
+                    ></TextEntry>
+                </div>
 
-            <div>
-                <TextEntry 
-                    inputLabel='Contact'
-                    isRequired={true}
-                    groupName={"contact"}
-                    handleChange={handleChange}
-                    displayValue={formData.contact}
-                ></TextEntry>
-            </div>
+                <div>
+                    <TextEntry 
+                        inputLabel='City'
+                        isRequired={true}
+                        groupName={"location"}
+                        handleChange={handleChange}
+                        displayValue={formData.location}
+                    ></TextEntry>
+                </div>
 
-            <div>
-                <TextEntry 
-                    inputLabel='City'
-                    isRequired={true}
-                    groupName={"location"}
-                    handleChange={handleChange}
-                    displayValue={formData.location}
-                ></TextEntry>
-            </div>
+                <PrimaryButton text='Post Glasses' handleClick={handleSubmit}></PrimaryButton>
+            </form>
 
-            <PrimaryButton text='Post Glasses' handleClick={handleSubmit}></PrimaryButton>
-        </form>
+            <AlertModal
+                isOpen={isModalOpen}
+                bodyText="Your Post Has Been Added To The Market"
+                titleText="Success!"
+                buttonText="OK"
+                onClose={handleModalClose}  // Close the modal on OK click
+                />
+        </div>
   );
 };
 
