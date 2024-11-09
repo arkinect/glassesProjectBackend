@@ -86,7 +86,7 @@ async def marketAll(prescription: int, db: db_dependency):
 # create a new post from the glasses form
 @app.post("/postCreate/", status_code=status.HTTP_201_CREATED)
 async def createPost(post: schemas.NewPostForm, db: db_dependency):
-    try:
+    # try:
         ### business logic
 
         # find a value for sphere (most important part of prescription) with prefrence on the actual prescription 
@@ -101,14 +101,15 @@ async def createPost(post: schemas.NewPostForm, db: db_dependency):
 
         # retrieve location from active profile
         # when we implement auth0 we'll figure out how to pass through a user object, or the location from the user object
-        testCity = "Alphaville"
-        testPhoneNumber = "000-000-0000"
+        testCity = post.location
+        testPhoneNumber = post.contact
 
         ### create models and post to db
         marketPostModel = models.MarketCard(
             location=testCity,
             sphere=recordedSphere, 
-            flagged=False
+            flagged=False,
+            postNumb=postNumber
         )
         db.add(marketPostModel)
 
@@ -120,7 +121,8 @@ async def createPost(post: schemas.NewPostForm, db: db_dependency):
             comment=post.comment,
             user=None, # will have to poll active user, update schema
             location=testCity,
-            contact=testPhoneNumber
+            contact=testPhoneNumber,
+            postNumb=postNumber
         )
         db.add(detailedPostModel)
 
@@ -132,6 +134,6 @@ async def createPost(post: schemas.NewPostForm, db: db_dependency):
         db.refresh(detailedPostModel)
 
         return JSONResponse(content={}, status_code=status.HTTP_201_CREATED)
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=str(e))
+    # except Exception as e:
+        # db.rollback()
+        # raise HTTPException(status_code=500, detail=str(e))
