@@ -4,8 +4,6 @@ import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
 import ListingForm from '../components/listingForm';
 
-import TextEntry from '../components/primitives/TextEntry';
-
 // prop interface
 interface props {
     
@@ -13,19 +11,15 @@ interface props {
 
 // class
 const NewListingPage: React.FC<props> = ({}) => {
-
-    const handleChange = () => {
-        console.log("Name input was changed");
-    }
-
     return (
       <div>
       <header>
         <SiteHeader></SiteHeader>
       </header>
       <main>
-        {/* <ListingForm></ListingForm> */}
-        <TextEntry inputLabel='Name' isRequired={true} groupName='NameInput' handleChange={handleChange}></TextEntry>
+        <div className={"spacing_page_margins"}> {/* page margins  */}
+          <ListingForm></ListingForm>
+        </div>
       </main>
     </div>
   );

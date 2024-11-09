@@ -7,42 +7,34 @@ interface props {
     inputLabel: string;
     isRequired: boolean;
     groupName: string;
-    handleChange : () => void;
+    displayValue: string | number | null;
+    handleChange : (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 // class
-const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, handleChange}) => {
+const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, displayValue, handleChange}) => {
 
-    const [inputValue, setInputValue] = useState('');
+    // const [inputValue, setInputValue] = useState('');
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
-        handleChange(event);
-    };
+    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const value = event.target.value;
+    //     setInputValue(value);
+    //     handleChange(event);
+    // };
 
-    // clear input on focus
-    const handleFocus = () => {
-        if (inputValue === '') {
-            setInputValue('');
-        }
-    };
-
-    const handleBlur = () => {
-        if (inputValue === '') {
-            setInputValue(''); // optional: reset value on blur if empty
-        }
-    };
-
-
+    const display = displayValue === null || displayValue === undefined ? '' : displayValue;
 
     return (
-        <input
-            type="text"
-            name={groupName}
-            value={inputLabel}
-            onChange={handleChange}
-            required = {isRequired}
-        />
+        <div className={"input_border"} data-placeholder={inputLabel}>
+            <input className={"input-field"}
+                type='text'
+                name={groupName} // groupName should match the category in formData
+                onChange={handleChange}
+                required = {isRequired}
+                placeholder={inputLabel}
+                value={display === 0 ? '' : display}
+            />
+        </div>
   );
 };
 

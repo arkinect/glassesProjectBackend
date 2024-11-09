@@ -1,7 +1,65 @@
 
 // variables
+$borderWidth: 2px;
 
 // spacing
+.input_border {
+    position: relative;
+    display: inline-block;
+    margin-top: 5px; // possibly irrelevant 
+    overflow: hidden;
+}
+
+.input_border:focus-within::after {
+    visibility: visible;
+    opacity: 1;
+    width: min-content; // how wide the gap in border will be
+    left: 0;
+    transform: translateX(10px) translateY(-3px);
+}
+
+.input_border::after {
+    content: attr(data-placeholder);
+    position: absolute;
+    left: 15%; // how far through the input element the animation starts
+    width: 0;
+    height: $borderWidth;
+    background-color: var(--offWhite);
+    z-index: 1;
+    transition: width 0.5s ease, opacity 0.1 ease;
+    opacity: 0;
+    visibility: hidden;
+
+    /* Text Styling */
+    font-size: 8px;
+    color: var(--softFocus);
+    font-weight: bold;
+    font-family: var(--fontFamily);
+    text-transform: uppercase;
+    padding: 2px;
+}
+
+.input-field {
+    padding: 5px;
+    background-color: var(--offWhite); /* Background color */
+    border: $borderWidth solid var(--greyContrast); /* Border */
+    border-radius: 8px; /* Rounded corners */
+    outline: none;
+    transition: border 0.3s ease-in-out;
+
+    &::placeholder {
+        color: var(--greyContrast);
+    }
+    
+    &:focus {
+        border-color: var(--softFocus); /* Change border color on focus */
+    }
+
+    &:focus::placeholder {
+        opacity: 0; /* Hide the placeholder on focus */
+    }
+  }
+
 
 // text
 

@@ -1,98 +1,176 @@
 // imports
 import React, { useEffect, useState } from 'react';
 import './listingForm.scss';
+import TextEntry from './primitives/TextEntry';
+import PrimaryButton from './primitives/PrimaryButton';
+import { STATUS_CODES } from 'http';
 
 // prop interface
 interface props {
     
 }
 
+// prescription interface
+interface Prescription {
+    left_eye?: { 
+      sphere: number | null
+      cylinder: number | null 
+      axis: number | null
+      prism: number | null
+      base: string | null
+      add: number | null
+    };
+    right_eye?: { 
+      sphere: number | null
+      cylinder: number | null 
+      axis: number | null
+      prism: number | null
+      base: string | null
+      add: number | null
+     };
+  }
+  
+  // form interface
+  interface NewPostForm {
+    prescription?: Prescription | null;
+    pseudoPrescription: number | null;
+    comment: string | null;
+    location: string;
+    contact: string;
+  }
+
 // class
 const ListingForm: React.FC<props> = ({}) => {
 
     // define submission structure
-    const [formData, setFormData] = useState({
-        prescription: '',
-        ownerName: '',
-        contact: '',
-        city: ''
+    const [formData, setFormData] = useState<NewPostForm>({
+        prescription: null,
+        pseudoPrescription: null,
+        comment: '',
+        location: '',
+        contact: ''
     });
 
-      // Handle input change
+
+    // handle tick box
+    const [isSpecific, setIsSpecific] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setIsSpecific(!isSpecific);
+    };
+
+    // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({
-        ...formData,
-        [name]: value
+
+        // Update formData based on field name
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    // handle submit button
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const updatedFormData = { ...formData };
+
+        if (updatedFormData.pseudoPrescription) {
+            updatedFormData.pseudoPrescription = parseFloat(updatedFormData.pseudoPrescription.toString());
+        }
+        console.log(JSON.stringify(updatedFormData))
+        fetch('http://localhost:8000/postCreate/', { // Update with your backend URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedFormData),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json().then(data => ({ status: response.status, data }));
+            })
+            .then(({status, data}) => {
+                // console.log('Response from backend:', status, data);
+                setFormData({
+                    prescription: null,
+                    pseudoPrescription: 0,
+                    comment: '',
+                    location: '',
+                    contact: ''
+                });
+                if (status === 201) {
+                    alert("Glasses Posted Successfully!");
+                }
+            })
+        .catch(error => {
+            console.error('Error submitting form:', error);
         });
     };
 
-    // Handle form submission
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        // You can add your data submission logic here
-        console.log('Form submitted:', formData);
-        // Reset form fields after submission if needed
-        setFormData({
-        prescription: '',
-        ownerName: '',
-        contact: '',
-        city: ''
-        });
-    };
+
 
     return (
         <form onSubmit={handleSubmit} className="data-entry-form">
-            <h1>New Glasses Listing</h1>
+            <h1 className='font_formHeading'>New Glasses Listing</h1>
+
+            <label className='font_defaultText'>
+                <input
+                    type="checkbox"
+                    checked={isSpecific}
+                    onChange={handleCheckboxChange}
+                />
+                I know my prescription
+            </label>
+
+            {isSpecific ? (
+                <div>Blank div, this doesnt work yet</div>
+            ) : (
+                <div>
+                    <TextEntry 
+                        inputLabel='Prescription'
+                        isRequired={true}
+                        groupName="pseudoPrescription"
+                        handleChange={handleChange}
+                        displayValue={formData.pseudoPrescription}
+                    ></TextEntry>
+                </div>
+            )}
 
             <div>
-                <input
-                type="text"
-                id="prescription"
-                name="prescription"
-                value={formData.prescription}
-                onChange={handleChange}
-                required
-                />
+                <TextEntry 
+                    inputLabel='Notes'
+                    isRequired={true}
+                    groupName={"comment"}
+                    handleChange={handleChange}
+                    displayValue={formData.comment}
+                ></TextEntry>
             </div>
 
             <div>
-                <label htmlFor="ownerName">Owner Name:</label>
-                <input
-                type="text"
-                id="ownerName"
-                name="ownerName"
-                value={formData.ownerName}
-                onChange={handleChange}
-                required
-                />
+                <TextEntry 
+                    inputLabel='Contact'
+                    isRequired={true}
+                    groupName={"contact"}
+                    handleChange={handleChange}
+                    displayValue={formData.contact}
+                ></TextEntry>
             </div>
 
             <div>
-                <label htmlFor="contact">Contact:</label>
-                <input
-                type="text"
-                id="contact"
-                name="contact"
-                value={formData.contact}
-                onChange={handleChange}
-                required
-                />
+                <TextEntry 
+                    inputLabel='City'
+                    isRequired={true}
+                    groupName={"location"}
+                    handleChange={handleChange}
+                    displayValue={formData.location}
+                ></TextEntry>
             </div>
 
-            <div>
-                <label htmlFor="city">City:</label>
-                <input
-                type="text"
-                id="city"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                required
-                />
-            </div>
-
-            <button type="submit">Submit</button>
+            <PrimaryButton text='Post Glasses' handleClick={handleSubmit}></PrimaryButton>
         </form>
   );
 };
