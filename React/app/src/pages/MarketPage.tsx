@@ -6,7 +6,6 @@ import MarketTile from '../components/MarketTile';
 
 // prop interface
 interface props {
-    testData: any;
 }
 
 // return data interface
@@ -27,7 +26,7 @@ interface Posting {
 }
 
 // class
-const MarketPage: React.FC<props> = ({testData}) => {
+const MarketPage: React.FC<props> = ({}) => {
 
   const [postings, setPostings] = useState<Posting[]>([]);
   const [error, setError] = useState<string | null>(null);
