@@ -3,6 +3,8 @@ import React from 'react';
 import {useNavigate } from 'react-router-dom';
 import './SiteHeader.scss'
 import LinkButton from './primitives/LinkButton';
+import { useAuth0 } from '@auth0/auth0-react';
+import PrimaryButton from './primitives/PrimaryButton';
 
 // prop interface
 interface props {
@@ -11,6 +13,7 @@ interface props {
 // class
 const SiteHeader: React.FC<props> = ({}) => {
   const navigate = useNavigate();
+  const { isAuthenticated, loginWithRedirect} = useAuth0();
 
   const navToMarket = () => {
       navigate('/market'); 
@@ -36,10 +39,14 @@ const SiteHeader: React.FC<props> = ({}) => {
         <div className='buffer_horizontal'></div>
         <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
         <div className='buffer_horizontal'></div>
-        <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
+        {isAuthenticated? (
+          <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
+        ):(
+          <PrimaryButton text='Log In' handleClick={loginWithRedirect}></PrimaryButton>
+        )}
       </div> 
     </div>
   );
-  };
+};
 
 export default SiteHeader;

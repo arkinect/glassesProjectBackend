@@ -10,6 +10,7 @@ FastAPI
 Node
 React
 TypeScript
+Auth0
 
 # First Time Setup
 0. Create and activate venv, installing dependencies as needed

@@ -32,7 +32,6 @@ const MarketPage: React.FC<props> = ({}) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('Fetching data from backend');
     fetch('http://localhost:8000/market/')
       .then(response => {
         if (!response.ok) {
@@ -55,11 +54,8 @@ const MarketPage: React.FC<props> = ({}) => {
             <div>Error fetching market data: {error}</div>
           ):(
             <div className={"grid_container"}>
-            {/* {postings.map((glasses: { location: { city: string; }; prescription: string; }) => (
-              <MarketTile location={glasses.location.city} sphere={glasses.prescription}></MarketTile>
-            ))}    */}
-            {postings.map((glasses: { location: string; sphere: number}) => (
-              <MarketTile location={glasses.location} sphere={glasses.sphere}></MarketTile>
+            {postings.map((glasses: { location: string; sphere: number}, index) => (
+              <MarketTile location={glasses.location} sphere={glasses.sphere} key={glasses.location || index}></MarketTile>
             ))}   
           </div>  
           )}
