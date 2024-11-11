@@ -16,7 +16,10 @@ TypeScript
 1. Install and setup mySQL (and optionally mySQL Workbench)
 2. Create a .env file in glassesProjectBackend/.env with the following environment variables
     - MYSQL_URL="mysql+pymysql://root:<mySQL password>@localhost:<port>/<db name>"   
-3. Update structure of mysql tables to reflect models.py (untested, confirm when used next)
+3. Create a .env file in glassesProjectBackend/React/app.env with the following environment variables
+    - REACT_APP_AUTH0_DOMAIN="<Available from the Auth0 settings page>"
+    - REACT_APP_AUTH0_CLIENT_ID="<Available from the Auth0 settings page>"
+4. Update structure of mysql tables to reflect models.py (untested, confirm when used next)
     - cd to glassesProjectBackend
     - alembic revision --autogenerate -m "message"
     - alembic upgrade head
