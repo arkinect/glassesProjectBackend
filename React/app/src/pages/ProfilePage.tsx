@@ -10,13 +10,13 @@ interface props {
 
 // class
 const ProfilePage: React.FC<props> = ({}) => {
-    return (
-        <div>
-        <header>
-          <SiteHeader></SiteHeader>
-        </header>
-        <main>
-          <div className={"spacing_page_margins"}> {/* page margins  */}
+  return (
+      <div>
+      <header>
+        <SiteHeader></SiteHeader>
+      </header>
+      <main>
+        <div className={"spacing_page_margins"}> {/* page margins  */}
               This is the profile page
           </div>
         </main>
