@@ -5,3 +5,4 @@ FastAPI/app/__pycache__/
 .env
 __pycache__/
 React/app/.env
+alembic/__pycache__
