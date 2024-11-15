@@ -52,7 +52,6 @@ See Autogen documentation for my FastAPI endpoints:
 I have yet to decide on a complete structure for the backend. I'm just making it up as I go along
 
 The structure for the front end is broadly 
-
 1. create primitive components
     These are highly reusble components which can be implemented everywhere
     eg generic button, generic text entry, etc
@@ -63,6 +62,8 @@ The structure for the front end is broadly
 4. pages are refrenced in App.tsx
 5. when writing scss, make use of colour variables available in index.css, or add new ones. 
     the goal is to be able to change the sites colours on a dime, as rn I'm just using different shades of purple. ideally the scss of primitive or larger components shouldnt use any hard coded colours or fonts (including text sizes)
+
+Branch names follow the form ("FB"|"BB")+<ticket number> where FB is for a feature branch and BB is for a bug branch
 
 *** this may change
 

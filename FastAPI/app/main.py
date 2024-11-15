@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy import func
@@ -80,12 +80,20 @@ async def createPost(post: schemas.NewPostForm, db: db_dependency, images: List[
         testCity = post.location
         testPhoneNumber = post.contact
 
+        image_paths = []
+        for image in images:
+            file_location = os.path.join(IMAGE_STORAGE, f"{postNumber}_{image.filename}")
+            with open(file_location, "wb") as f:
+                f.write(await image.read())
+            image_paths.append(file_location)
+
         ### create models and post to db
         marketPostModel = models.MarketCard(
             location=testCity,
             sphere=recordedSphere, 
             flagged=False,
-            postNumb=postNumber
+            postNumb=postNumber,
+            imageCard=image_paths[0] if image_paths else None
         )
         db.add(marketPostModel)
 
@@ -101,6 +109,13 @@ async def createPost(post: schemas.NewPostForm, db: db_dependency, images: List[
             postNumb=postNumber
         )
         db.add(detailedPostModel)
+
+        for image_path in image_paths:
+            postImageModel = models.Images(
+                postNumb=postNumber,
+                image_path=image_path
+            )
+            db.add(postImageModel)
 
         # Commit the transaction after both are added
         db.commit()
