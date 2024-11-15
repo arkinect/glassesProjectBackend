@@ -77,3 +77,4 @@ Branch names follow the form ("FB"|"BB")+<ticket number> where FB is for a featu
 1. investigate auth0 to add accounts
 2. ml model to predict prescription using pic through glasses (tissue box?)
 3. data validation on listing form
+4. add modal over market page with warning (tick box to not show again if logged in). same warning available from account maybe?
