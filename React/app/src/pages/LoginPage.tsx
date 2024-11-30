@@ -15,7 +15,7 @@ const LoginPage: React.FC<props> = () => {
     const processAuth = async () => {
       try {
         await handleRedirectCallback();
-        navigate("/market");
+        // navigate("/market");
       } catch (error) {
         console.error("Error handling redirect callback:", error);
       }
@@ -39,7 +39,7 @@ const LoginPage: React.FC<props> = () => {
 
   // If the user is authenticated, redirect them to the /market page
   if (isAuthenticated && user) {
-    navigate("/market");
+    // navigate("/market");
     return <div>Authenticated, redirecting...</div>;
   }
 

@@ -23,9 +23,7 @@ root.render(
     domain={Auth0Domain}
     clientId={Auth0ClientID}
     authorizationParams={{redirect_uri: window.location.origin + '/callback'}}>
-    <React.StrictMode>
       <App />
-    </React.StrictMode>
   </Auth0Provider>
 
 );
