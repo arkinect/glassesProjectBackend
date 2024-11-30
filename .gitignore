@@ -6,3 +6,4 @@ FastAPI/app/__pycache__/
 __pycache__/
 React/app/.env
 imageStorage/
+node_modules/
