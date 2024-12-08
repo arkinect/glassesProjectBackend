@@ -1,46 +1,43 @@
-// imports
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// prop interface
-interface props {}
+interface Props {}
 
-// class
-const LoginPage: React.FC<props> = () => {
+const LoginPage: React.FC<Props> = () => {
+
   const { handleRedirectCallback, isAuthenticated, error, isLoading, user } = useAuth0();
   const navigate = useNavigate();
+  const [authProcessed, setAuthProcessed] = useState(false);
 
+  // Continualy check if authorization is finished
   useEffect(() => {
-    const processAuth = async () => {
-      try {
-        await handleRedirectCallback();
-        // navigate("/market");
-      } catch (error) {
-        console.error("Error handling redirect callback:", error);
-      }
-    };
-
-    // Only process the authentication if it's not loading
-    if (!isLoading) {
-      processAuth();
+    if (!authProcessed && !isLoading && !isAuthenticated) {
+      handleRedirectCallback()
+        .then(() => {
+          // Once authentication is processed set processed to true to stop checking
+          setAuthProcessed(true);
+        })
+        .catch((err) => {
+          console.error("Error handling redirect callback:", err);
+        });
     }
-}, [handleRedirectCallback, isLoading, navigate]);
+  }, [authProcessed, isLoading, isAuthenticated, handleRedirectCallback]);
 
-  // Display loading message while the page is loading
+  // When authetification is complete, nav to market
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      navigate("/market");
+    }
+  }, [isAuthenticated, user, navigate]);
+
+  // handle render while loading
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  // If there is an error, display the error message
   if (error) {
     return <div>Error processing the login callback: {error.message}</div>;
-  }
-
-  // If the user is authenticated, redirect them to the /market page
-  if (isAuthenticated && user) {
-    // navigate("/market");
-    return <div>Authenticated, redirecting...</div>;
   }
 
   return <div>Authentication in progress... Please wait.</div>;

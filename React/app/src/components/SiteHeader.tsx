@@ -1,6 +1,6 @@
 // imports
 import React from 'react';
-import {useNavigate } from 'react-router-dom';
+import {redirect, useNavigate } from 'react-router-dom';
 import './SiteHeader.scss'
 import LinkButton from './primitives/LinkButton';
 import { useAuth0 } from '@auth0/auth0-react';
