@@ -5,4 +5,7 @@ FastAPI/app/__pycache__/
 .env
 __pycache__/
 React/app/.env
+imageStorage/
+node_modules/
+
 alembic/__pycache__

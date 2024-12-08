@@ -1,32 +1,17 @@
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-import json
 from fastapi.responses import JSONResponse
 from sqlalchemy import func
-from typing import List, Dict, Annotated
-from pydantic import BaseModel
+from typing import List, Annotated
 from sqlalchemy.orm import Session
-
-import models
 from database import engine,sessionLocal
-
+from dotenv import load_dotenv
 import schemas
 import models
+import os
 
-### Load test data
-try:
-    with open('../TestData/testData.json', 'r') as file:
-        data = json.load(file)
-        testData = data.get('testArray1', [])  # Get 'testArray1' from the loaded JSON
-except FileNotFoundError:
-    testData = []
-    print("Warning: testData.json not found.")
-except json.JSONDecodeError:
-    testData = []
-    print("Error: testData.json is not a valid JSON file.")
-except Exception as e:
-    testData = []
-    print(f"Unexpected error: {e}")
+load_dotenv()
+IMAGE_STORAGE=os.getenv('UPLOAD_DIRECTORY')
 
 ### dependency for db session
 def get_db():
@@ -50,15 +35,6 @@ app.add_middleware(
 )
 
 models.Base.metadata.create_all(bind=engine)
-
-# get test data for market page
-@app.get('/api/market/', response_model=List[schemas.MarketPosting])
-def get_glasses_market() -> List[schemas.MarketPosting]:
-    print("Returning data")
-    if not testData:
-        raise HTTPException(status_code=500, detail="No data available.")
-    return list(testData.values())
-
 
 # create a new user
 @app.post("/users/", status_code=status.HTTP_201_CREATED)
@@ -85,8 +61,8 @@ async def marketAll(prescription: int, db: db_dependency):
 
 # create a new post from the glasses form
 @app.post("/postCreate/", status_code=status.HTTP_201_CREATED)
-async def createPost(post: schemas.NewPostForm, db: db_dependency):
-    # try:
+async def createPost(post: schemas.NewPostForm, db: db_dependency, images: List[UploadFile] = File(...)):
+    try:
         ### business logic
 
         # find a value for sphere (most important part of prescription) with prefrence on the actual prescription 
@@ -104,12 +80,20 @@ async def createPost(post: schemas.NewPostForm, db: db_dependency):
         testCity = post.location
         testPhoneNumber = post.contact
 
+        image_paths = []
+        for image in images:
+            file_location = os.path.join(IMAGE_STORAGE, f"{postNumber}_{image.filename}")
+            with open(file_location, "wb") as f:
+                f.write(await image.read())
+            image_paths.append(file_location)
+
         ### create models and post to db
         marketPostModel = models.MarketCard(
             location=testCity,
             sphere=recordedSphere, 
             flagged=False,
-            postNumb=postNumber
+            postNumb=postNumber,
+            imageCard=image_paths[0] if image_paths else None
         )
         db.add(marketPostModel)
 
@@ -126,6 +110,13 @@ async def createPost(post: schemas.NewPostForm, db: db_dependency):
         )
         db.add(detailedPostModel)
 
+        for image_path in image_paths:
+            postImageModel = models.Images(
+                postNumb=postNumber,
+                image_path=image_path
+            )
+            db.add(postImageModel)
+
         # Commit the transaction after both are added
         db.commit()
 
@@ -134,6 +125,6 @@ async def createPost(post: schemas.NewPostForm, db: db_dependency):
         db.refresh(detailedPostModel)
 
         return JSONResponse(content={}, status_code=status.HTTP_201_CREATED)
-    # except Exception as e:
-        # db.rollback()
-        # raise HTTPException(status_code=500, detail=str(e))
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
