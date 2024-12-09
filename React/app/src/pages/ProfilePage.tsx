@@ -29,8 +29,8 @@ const ProfilePage: React.FC<props> = ({}) => {
     });
   };
 
-  const handleFileUpload = (file: File) => {
-    console.log("File uploaded:", file);
+  const handleFileUpload = (files: File[]) => {
+    console.log("File uploaded:", files);
     // handle save to db or something here
   };
 
