@@ -68,13 +68,9 @@ Branch names follow the form ("FB"|"BB")+<ticket number> where FB is for a featu
 *** this may change
 
 # Todo
-1. adding listings via listing page
-2. add component for a prescription entry using cells
-3. fix market page (idk y it isnt working)
-4. add option in new form to use default location or select a new one (this will have to poll a db for the users default location and make that visible on the front end)
+This todo list is no longer in use, now using kanban in github projects
 
-# Feature List
-1. investigate auth0 to add accounts
+# Off in the future list
 2. ml model to predict prescription using pic through glasses (tissue box?)
 3. data validation on listing form
-4. add modal over market page with warning (tick box to not show again if logged in). same warning available from account maybe?
+4. add modal over market page with warning about close prescriptions (tick box to not show again if logged in). same warning available from account maybe?
