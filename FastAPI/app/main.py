@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File
+from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy import func
@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import schemas
 import models
 import os
+import json
 
 load_dotenv()
 IMAGE_STORAGE=os.getenv('UPLOAD_DIRECTORY')
@@ -61,10 +62,12 @@ async def marketAll(prescription: int, db: db_dependency):
 
 # create a new post from the glasses form
 @app.post("/postCreate/", status_code=status.HTTP_201_CREATED)
-async def createPost(post: schemas.NewPostForm, db: db_dependency, images: List[UploadFile] = File(...)):
+async def createPost(db: db_dependency, post: str = Form(...), images: List[UploadFile] = File(...)):
     try:
-        ### business logic
+        # unpack post json 
+        post = schemas.NewPostForm(**json.loads(post))
 
+        ### business logic
         # find a value for sphere (most important part of prescription) with prefrence on the actual prescription 
         try:
             recordedSphere = max(post.prescription.left_eye.sphere, post.prescription.right_eye.sphere)

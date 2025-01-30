@@ -4,6 +4,7 @@ import './listingForm.scss';
 import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
 import AlertModal from './primitives/AlertModal';
+import FileUpload from './primitives/FileUpload';
 
 // prop interface
 interface props {
@@ -65,6 +66,13 @@ const ListingForm: React.FC<props> = ({}) => {
         setIsSpecific(!isSpecific);
     };
 
+    // manage files from file upload
+    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
+    const handleFileUpload = (files: File[]) => {
+        setUploadedFiles(files);
+    };
+
     // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -85,34 +93,44 @@ const ListingForm: React.FC<props> = ({}) => {
         if (updatedFormData.pseudoPrescription) {
             updatedFormData.pseudoPrescription = parseFloat(updatedFormData.pseudoPrescription.toString());
         }
-        console.log(JSON.stringify(updatedFormData))
-        fetch('http://localhost:8000/postCreate/', { // Update with your backend URL
+
+        const formDataWithFiles = new FormData();
+        formDataWithFiles.append('post', JSON.stringify(updatedFormData));
+        uploadedFiles.forEach((file) => {
+            formDataWithFiles.append('images', file);
+        });
+
+
+        console.log(formDataWithFiles)
+        fetch('http://localhost:8000/postCreate/', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedFormData),
+            body: formDataWithFiles,
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json().then(data => ({ status: response.status, data }));
-            })
-            .then(({status, data}) => {
-                console.log('Response from backend:', status, data);
-                if (status === 201) {
-                    // alert("Glasses Posted Successfully!");
-                    setIsModalOpen(true);
-                    setFormData({
-                        prescription: null,
-                        pseudoPrescription: 0,
-                        comment: '',
-                        location: '',
-                        contact: ''
-                    });
-                }
-            })
+        .then((response) => 
+            response
+                .json()
+                .then((data) => ({status: response.status, data}))
+                .catch(() => ({status: response.status, data: null}))
+        )  
+        .then(({status, data}) => {
+            if (status >= 400) {
+                console.error("Backend Error:", status, data);
+                throw new Error(`Request failed with status ${status}`);
+            }
+
+            console.log('Response from backend:', status, data);
+            if (status === 201) {
+                // alert("Glasses Posted Successfully!");
+                setIsModalOpen(true);
+                setFormData({
+                    prescription: null,
+                    pseudoPrescription: 0,
+                    comment: '',
+                    location: '',
+                    contact: ''
+                });
+            }
+        })
         .catch(error => {
             console.error('Error submitting form:', error);
         });
@@ -122,6 +140,8 @@ const ListingForm: React.FC<props> = ({}) => {
         <div>
             <form onSubmit={handleSubmit} className="data-entry-form">
                 <h1 className='font_formHeading'>New Glasses Listing</h1>
+
+                <FileUpload onFileUpload={handleFileUpload} />
 
                 <label className='font_defaultText'>
                     <input

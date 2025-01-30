@@ -34,17 +34,22 @@ const SiteHeader: React.FC<props> = ({}) => {
         <div className={"font_website_title"}>Website name</div>
       </div>
 
-      <div className={"flexbox_internal"}> {/*Right group*/}
-        <LinkButton text='New Post' handleClick={navToNewListing}></LinkButton>
-        <div className='buffer_horizontal'></div>
-        <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
-        <div className='buffer_horizontal'></div>
-        {isAuthenticated? (
-          <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
+      {/*Right group*/}
+      {isAuthenticated? (
+          <div className={"flexbox_internal"}> 
+            <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
+            <div className='buffer_horizontal'></div>
+            <LinkButton text='New Post' handleClick={navToNewListing}></LinkButton>
+            <div className='buffer_horizontal'></div>
+            <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
+          </div> 
         ):(
-          <PrimaryButton text='Log In' handleClick={loginWithRedirect}></PrimaryButton>
+          <div className={"flexbox_internal"}>
+            <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
+            <div className='buffer_horizontal'></div>
+            <PrimaryButton text='Log In' handleClick={loginWithRedirect}></PrimaryButton>
+          </div>
         )}
-      </div> 
     </div>
   );
 };
