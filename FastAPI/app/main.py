@@ -10,9 +10,11 @@ import schemas
 import models
 import os
 import json
+from pathlib import Path
 
 load_dotenv()
 IMAGE_STORAGE=os.getenv('UPLOAD_DIRECTORY')
+directory = Path(__file__).resolve().parent.parent.parent.parent / IMAGE_STORAGE
 
 ### dependency for db session
 def get_db():
@@ -75,20 +77,23 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
             recordedSphere = post.pseudoPrescription
 
         # retrieve the most recent post number
-        max_post_number = db.query(func.max(models.GlassesDetailed.postNumb)).scalar()
-        postNumber = (max_post_number or 0) + 1
+        maxPostNumber = db.query(func.max(models.GlassesDetailed.postNumb)).scalar()
+        postNumber = (maxPostNumber or 0) + 1
 
         # retrieve location from active profile
         # when we implement auth0 we'll figure out how to pass through a user object, or the location from the user object
         testCity = post.location
         testPhoneNumber = post.contact
 
-        image_paths = []
+        imagePaths = []
+        countImages = 0
         for image in images:
-            file_location = os.path.join(IMAGE_STORAGE, f"{postNumber}_{image.filename}")
-            with open(file_location, "wb") as f:
+            filePath = directory / f"{postNumber}_{countImages}_{image.filename}"
+            print(filePath)
+            with open(filePath, "wb") as f:
                 f.write(await image.read())
-            image_paths.append(file_location)
+            imagePaths.append(str(filePath))
+            countImages += 1
 
         ### create models and post to db
         marketPostModel = models.MarketCard(
@@ -96,7 +101,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
             sphere=recordedSphere, 
             flagged=False,
             postNumb=postNumber,
-            imageCard=image_paths[0] if image_paths else None
+            imageCard=imagePaths[0] if imagePaths else None
         )
         db.add(marketPostModel)
 
@@ -113,10 +118,10 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         )
         db.add(detailedPostModel)
 
-        for image_path in image_paths:
+        for imagePath in imagePaths:
             postImageModel = models.Images(
                 postNumb=postNumber,
-                image_path=image_path
+                imagePath=imagePath
             )
             db.add(postImageModel)
 

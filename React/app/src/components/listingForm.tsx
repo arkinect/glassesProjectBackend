@@ -85,6 +85,7 @@ const ListingForm: React.FC<props> = ({}) => {
     };
 
     // handle submit button
+    const [resetFileUpload, setResetFileUpload] = useState(false);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -100,11 +101,10 @@ const ListingForm: React.FC<props> = ({}) => {
             formDataWithFiles.append('images', file);
         });
 
-
         console.log(formDataWithFiles)
         fetch('http://localhost:8000/postCreate/', {
             method: 'POST',
-            body: formDataWithFiles,
+            body: formDataWithFiles
         })
         .then((response) => 
             response
@@ -129,6 +129,8 @@ const ListingForm: React.FC<props> = ({}) => {
                     location: '',
                     contact: ''
                 });
+                setUploadedFiles([])
+                setResetFileUpload(prev => !prev);
             }
         })
         .catch(error => {
@@ -141,7 +143,7 @@ const ListingForm: React.FC<props> = ({}) => {
             <form onSubmit={handleSubmit} className="data-entry-form">
                 <h1 className='font_formHeading'>New Glasses Listing</h1>
 
-                <FileUpload onFileUpload={handleFileUpload} />
+                <FileUpload onFileUpload={handleFileUpload} resetPreviews={resetFileUpload}/>
 
                 <label className='font_defaultText'>
                     <input

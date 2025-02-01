@@ -42,7 +42,6 @@ const ProfilePage: React.FC<props> = ({}) => {
       <main>
         <div className={"spacing_page_margins"}> {/* page margins  */}
             This is the profile page
-            <FileUpload onFileUpload={handleFileUpload}></FileUpload>
             <PrimaryButton text='Logout' handleClick={handleLogout}></PrimaryButton>
         </div>
       </main>

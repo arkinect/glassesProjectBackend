@@ -1,13 +1,14 @@
 // imports
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import "./FileUpload.scss"
 
 // prop interface
 interface props {
-  onFileUpload: (files: File[]) => void; // Callback to handle the uploaded file
+  onFileUpload: (files: File[]) => void; // Callback to handle the uploaded files
+  resetPreviews: boolean;
 }
 
-const FileUpload: React.FC<props> = ({ onFileUpload }) => {
+const FileUpload: React.FC<props> = ({ onFileUpload, resetPreviews }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
@@ -41,6 +42,15 @@ const FileUpload: React.FC<props> = ({ onFileUpload }) => {
     setPreviewUrls(updatedPreviews);
     onFileUpload(updatedFiles); // Update the parent with the new file list
   };
+
+  // manage reset on form submit
+  useEffect(() => {
+    if (resetPreviews) {
+      setSelectedFiles([]);  // Clear selected files
+      setPreviewUrls([]);    // Clear previews
+      if (fileInputRef.current) fileInputRef.current.value = '';  // Reset input field
+    }
+  }, [resetPreviews]);
 
   // click actual input when mask is clicked
   const fileInputRef = useRef<HTMLInputElement>(null);
