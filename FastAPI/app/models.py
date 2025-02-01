@@ -52,6 +52,8 @@ class Images(Base):
     __tablename__ = 'images'
 
     id = Column(Integer, primary_key=True)
+    # Here is the fix: We need to link images to GlassesDetailed directly, not MarketCard
+    # Add a foreign key that references `GlassesDetailed.postNumb`
     postNumb = Column(Integer, ForeignKey('detailedInfo.postNumb'))  # Foreign key to GlassesDetailed
     imagePath = Column(String(225))
 

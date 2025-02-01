@@ -7,5 +7,4 @@ __pycache__/
 React/app/.env
 imageStorage/
 node_modules/
-
-alembic/__pycache__
+alembic/__pycache__/

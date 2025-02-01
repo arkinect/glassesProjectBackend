@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
 import ListingForm from '../components/listingForm';
+import FileUpload from '../components/primitives/FileUpload'
 
 // prop interface
 interface props {
@@ -11,8 +12,8 @@ interface props {
 
 // class
 const NewListingPage: React.FC<props> = ({}) => {
-    return (
-      <div>
+  return (
+    <div>
       <header>
         <SiteHeader></SiteHeader>
       </header>

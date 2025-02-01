@@ -13,20 +13,6 @@ interface props {
 
 // class
 const ProfilePage: React.FC<props> = ({}) => {
-<<<<<<< HEAD
-  return (
-      <div>
-      <header>
-        <SiteHeader></SiteHeader>
-      </header>
-      <main>
-        <div className={"spacing_page_margins"}> {/* page margins  */}
-              This is the profile page
-          </div>
-        </main>
-      </div>
-    );
-=======
 
   const { logout } = useAuth0();
 
@@ -41,11 +27,10 @@ const ProfilePage: React.FC<props> = ({}) => {
         returnTo: window.location.origin,
       },
     });
->>>>>>> FB7
   };
 
-  const handleFileUpload = (file: File) => {
-    console.log("File uploaded:", file);
+  const handleFileUpload = (files: File[]) => {
+    console.log("File uploaded:", files);
     // handle save to db or something here
   };
 
@@ -57,7 +42,6 @@ const ProfilePage: React.FC<props> = ({}) => {
       <main>
         <div className={"spacing_page_margins"}> {/* page margins  */}
             This is the profile page
-            <FileUpload onFileUpload={handleFileUpload}></FileUpload>
             <PrimaryButton text='Logout' handleClick={handleLogout}></PrimaryButton>
         </div>
       </main>
