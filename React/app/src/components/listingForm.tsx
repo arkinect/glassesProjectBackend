@@ -102,7 +102,7 @@ const ListingForm: React.FC<props> = ({}) => {
         });
 
         console.log(formDataWithFiles)
-        fetch('http://localhost:8000/postCreate/', {
+        fetch('http://localhost:8000/posts/new/', {
             method: 'POST',
             body: formDataWithFiles
         })
