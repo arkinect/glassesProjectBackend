@@ -11,6 +11,7 @@ import models
 import os
 import json
 from pathlib import Path
+import re
 
 load_dotenv()
 IMAGE_STORAGE=os.getenv('UPLOAD_DIRECTORY')
@@ -88,7 +89,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         imagePaths = []
         countImages = 0
         for image in images:
-            filePath = directory / f"{postNumber}_{countImages}_{image.filename}"
+            filePath = directory / f"{postNumber}_{countImages}_{re.sub(" ", "_", image.filename)}"
             print(filePath)
             with open(filePath, "wb") as f:
                 f.write(await image.read())

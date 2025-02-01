@@ -9,20 +9,12 @@ interface props {
 }
 
 // return data interface
-interface TestPosting {
-  prescription: string,
-  owner_name: string,
-  contact: string,
-  location: {
-    city: string
-      }
-}
-
 interface Posting {
   postNumb: number,
   location: string,
   sphere: number,
   flagged: boolean,
+  imageCard: string,
 }
 
 // class
@@ -54,8 +46,8 @@ const MarketPage: React.FC<props> = ({}) => {
             <div>Error fetching market data: {error}</div>
           ):(
             <div className={"grid_container"}>
-            {postings.map((glasses: { location: string; sphere: number}, index) => (
-              <MarketTile location={glasses.location} sphere={glasses.sphere} key={glasses.location || index}></MarketTile>
+            {postings.map((glasses: { location: string; sphere: number; imageCard: string}, index) => (
+              <MarketTile location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={glasses.location || index}></MarketTile>
             ))}   
           </div>  
           )}

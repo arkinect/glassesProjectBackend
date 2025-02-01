@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
 import ListingForm from '../components/listingForm';
-import FileUpload from '../components/primitives/FileUpload'
 
 // prop interface
 interface props {
