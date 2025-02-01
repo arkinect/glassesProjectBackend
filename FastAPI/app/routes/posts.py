@@ -47,11 +47,11 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         countImages = 0
         directory = Path(__file__).resolve().parent.parent.parent.parent.parent / IMAGE_STORAGE
         for image in images:
-            filePath = directory / f"{postNumber}_{countImages}_{image.filename}"
-            print(filePath)
+            loggedFileName = f"{postNumber}_{countImages}_{image.filename}"
+            filePath = directory / loggedFileName
             with open(filePath, "wb") as f:
                 f.write(await image.read())
-            imagePaths.append(str(filePath))
+            imagePaths.append(str(loggedFileName))
             countImages += 1
 
         ### create models and post to db
