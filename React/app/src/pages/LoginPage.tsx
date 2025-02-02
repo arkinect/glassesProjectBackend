@@ -33,14 +33,14 @@ const LoginPage: React.FC<Props> = () => {
 
   // handle render while loading
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="font_loadingText">Loading...</div>;
   }
 
   if (error) {
-    return <div>Error processing the login callback: {error.message}</div>;
+    return <div className="font_loadingText">Error processing the login callback: {error.message}</div>;
   }
 
-  return <div>Authentication in progress... Please wait.</div>;
+  return <div className="font_loadingText">Authentication in progress... Please wait.</div>;
 };
 
 export default LoginPage;

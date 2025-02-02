@@ -14,6 +14,13 @@
 }
 
 // text
+.font_loadingText {
+    margin-top: 40px;
+    text-align: center;
+    font-family: var(--fontFamily);
+    font-size: var(--fontSizeEmphasis);
+    color: var(--emphasis);
+}
 
 // buttons
 
