@@ -2,7 +2,6 @@
 import React from 'react';
 import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
-import FileUpload from '../components/primitives/FileUpload';
 import PrimaryButton from '../components/primitives/PrimaryButton';
 import { useAuth0 } from "@auth0/auth0-react";
 
