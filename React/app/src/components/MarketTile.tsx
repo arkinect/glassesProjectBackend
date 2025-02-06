@@ -25,7 +25,7 @@ const MarketTile: React.FC<props> = ({location, sphere, coverImage}) => {
         <div className={"border_glasses_tile"}>
         <div className={"grid_item block_purple"}>
             {/* <div className={"image_placeholder"}></div> */}
-            <img src={`http://localhost:8000/market/image/${coverImage}`} alt={"a"} className={"image_placeholder"}></img>
+            <img src={`http://localhost:8000/image/${coverImage}`} alt={"a"} className={"image_placeholder"}></img>
         </div>
         <div className={"flexbox"}>
             <div className={"font_prescription"}>{sphere}</div>
