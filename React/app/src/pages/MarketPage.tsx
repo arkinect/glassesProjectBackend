@@ -37,23 +37,22 @@ const MarketPage: React.FC<props> = ({}) => {
 
   return (
       <div>
-      <header>
-        <SiteHeader></SiteHeader>
-      </header>
-      <main>
-        <div className={"spacing_page_margins"}> {/* page margins  */}
-          {error? (
-            <div>Error fetching market data: {error}</div>
-          ):(
-            <div className={"grid_container"}>
-            {postings.map((glasses: { location: string; sphere: number; imageCard: string}, index) => (
-              <MarketTile location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={glasses.location || index}></MarketTile>
-            ))}   
-          </div>  
-          )}
-          
-        </div>
-      </main>
+        <header>
+          <SiteHeader></SiteHeader>
+        </header>
+        <main>
+          <div className={"spacing_page_margins"}> {/* page margins  */}
+            {error? (
+              <div>Error fetching market data: {error}</div>
+            ):(
+              <div className={"grid_container"}>
+                {postings.map((glasses: {postNumb: number; location: string; sphere: number; imageCard: string}, index) => (
+                  <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={glasses.location || index}></MarketTile>
+                ))}   
+              </div>  
+            )}
+          </div>
+        </main>
     </div>
   );
 };

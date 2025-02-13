@@ -1,7 +1,7 @@
 // imports
 import React, { useEffect, useState } from 'react';
 
-import './fullPageListing.scss'
+import './FullPageListing.scss'
 
 // props interface
 interface props {
@@ -27,17 +27,17 @@ interface Image {
 }
 
 // class
-const fullPageListing: React.FC<props> = ({listingNumber}) => {
+const FullPageListing: React.FC<props> = ({listingNumber}) => {
 
     // get listing info
-    const [details, setDetails] = useState<DetailedPosting>();
+    const [details, setDetails] = useState<DetailedPosting[]>([]);
     const [error, setError] = useState<string | null>(null);
   
     useEffect(() => {
         fetch(`http://localhost:8000/market/listing/${listingNumber}`)
         .then(response => {
             if (!response.ok) {
-            throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
@@ -46,8 +46,14 @@ const fullPageListing: React.FC<props> = ({listingNumber}) => {
     }, []);
 
     return(
-        <div></div>
+        <div>
+            {error? (
+                <div>Error fetching post data: {error}</div>
+            ):(
+                <div>{details[0].flagged}</div>
+            )}
+        </div>
     );
 };
 
-export default fullPageListing;
+export default FullPageListing;

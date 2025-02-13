@@ -35,6 +35,6 @@ async def getDetail(postNumb: int, db:db_dependency):
     detail = db.query(models.GlassesDetailed).filter(models.GlassesDetailed.postNumb == postNumb).all()
     if detail is None:
         raise HTTPException(status_code=404, detail="Could not find detail for that listing")
-    elif len(detail > 1):
+    elif len(detail) > 1:
         raise HTTPException(status_code=502, detail="Multiple sets of information were found for this listing" )
     return detail
