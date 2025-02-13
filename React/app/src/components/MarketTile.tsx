@@ -16,9 +16,6 @@ const MarketTile: React.FC<props> = ({postNumb, location, sphere, coverImage}) =
   const navigate = useNavigate();
 
   const navToProduct = () => {
-    //   navigate('/market'); 
-    console.log("Navigate to product page");
-    console.log(coverImage);
     navigate(`/listing/${postNumb}`)
   };
 
