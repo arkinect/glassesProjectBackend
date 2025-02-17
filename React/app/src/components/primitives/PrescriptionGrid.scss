@@ -1,0 +1,38 @@
+.prescription-container {
+    width: 400px;
+    border: 2px solid black;
+    padding: 10px;
+    background: white;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .prescription-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .prescription-table {
+    display: grid;
+    grid-template-columns: 1fr repeat(5, 1fr);
+    gap: 2px;
+    border: 1px solid black;
+  }
+  
+  .prescription-table div {
+    padding: 8px;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .header {
+    font-weight: bold;
+    background-color: #ddd;
+  }
+  
+  .eye-label {
+    font-weight: bold;
+    background-color: #eee;
+  }
+  

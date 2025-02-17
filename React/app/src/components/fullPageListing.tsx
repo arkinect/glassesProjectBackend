@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import './FullPageListing.scss'
+import PrescriptionGrid from './primitives/PrescriptionGrid';
 
 // props interface
 interface props {
@@ -16,9 +17,22 @@ interface DetailedPosting {
     location: string,
     pictures? : Image[],
     postNumb: number,
-    prescription?: object | null,
+    prescription?: Prescription | null,
     pseudoPrescription?: number | null,
     user: string,
+}
+
+interface EyePrescription {
+    sphere: number | null;
+    cylinder: number | null;
+    axis: number | null;
+    prism: number | null;
+    base: string | null;
+}
+  
+interface Prescription {
+    leftEye: EyePrescription;
+    rightEye: EyePrescription;
 }
 
 interface Image {
@@ -52,11 +66,23 @@ const FullPageListing: React.FC<props> = ({listingNumber}) => {
         <div>
             {error? (
                 <div>Error fetching post data: {error}</div>
+            ):(
+                <PrescriptionGrid pseudoPrescription={details?.pseudoPrescription ?? null} prescription={details?.prescription ?? null}></PrescriptionGrid>    
+            )}
+            {/* {error? (
+                <div>Error fetching post data: {error}</div>
             ): details? (
-                <div>{details.flagged}</div>
+                <div className='flexbox'>
+                    <div className='flexbox_internal'></div>
+                    <div className='flexbox_internal'>
+                        <PrescriptionGrid pseudoPrescription={details.pseudoPrescription}></PrescriptionGrid>
+
+                    </div>   
+                </div>
+                
             ): (
                 <div>loading...</div>
-            )}
+            )} */}
         </div>
     );
 };
