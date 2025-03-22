@@ -30,7 +30,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         ### business logic
         # find a value for sphere (most important part of prescription) with prefrence on the actual prescription 
         try:
-            recordedSphere = max(post.prescription.left_eye.sphere, post.prescription.right_eye.sphere)
+            recordedSphere = max(post.prescription.leftEye.sphere, post.prescription.rightEye.sphere)
         except:
             recordedSphere = post.pseudoPrescription
 
@@ -54,6 +54,10 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
             imagePaths.append(str(loggedFileName))
             countImages += 1
 
+        # create a dict from the presription data
+        prescription_data = post.prescription.dict()
+
+
         ### create models and post to db
         marketPostModel = models.MarketCard(
             location=testCity,
@@ -67,7 +71,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         detailedPostModel = models.GlassesDetailed(
             # postNumb=postNumber, # removed because it refs mkt table
             flagged=False,
-            prescription=post.prescription,
+            prescription=prescription_data,
             pseudoPrescription=post.pseudoPrescription,
             comment=post.comment,
             user=None, # will have to poll active user, update schema

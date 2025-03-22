@@ -5,7 +5,6 @@ import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
 import AlertModal from './primitives/AlertModal';
 import FileUpload from './primitives/FileUpload';
-import PrescriptionEntry from './primitives/PrescriptionEntry';
 import { Prescription } from '../interfaces';
 
 // prop interface
@@ -26,7 +25,7 @@ interface NewPostForm {
 const ListingForm: React.FC<props> = ({}) => {
 
     // handle creating a blank prescription object
-    const getDefaultPrescription = (): Prescription => ({
+    const getEmptyPrescription = (): Prescription => ({
         leftEye: {
             sphere: null,
             cylinder: null,
@@ -45,7 +44,7 @@ const ListingForm: React.FC<props> = ({}) => {
 
     // define submission structure
     const [formData, setFormData] = useState<NewPostForm>({
-        prescription: getDefaultPrescription(),
+        prescription: getEmptyPrescription(),
         pseudoPrescription: null,
         comment: '',
         location: '',
@@ -80,10 +79,6 @@ const ListingForm: React.FC<props> = ({}) => {
     
         setFormData(prevState => {
             let updatedData: any = { ...prevState }; // copy existing data
-
-            if (!updatedData.prescription) {
-                updatedData.prescription = getDefaultPrescription();
-            }
 
             // traverse updated data (existing data)
             let temp = updatedData;
@@ -138,7 +133,7 @@ const ListingForm: React.FC<props> = ({}) => {
             if (status === 201) {
                 setIsModalOpen(true);
                 setFormData({
-                    prescription: getDefaultPrescription(),
+                    prescription: getEmptyPrescription(),
                     pseudoPrescription: 0,
                     comment: '',
                     location: '',
@@ -171,14 +166,40 @@ const ListingForm: React.FC<props> = ({}) => {
 
                 {isSpecific ? (
                     <div>
-                        <PrescriptionEntry
-                            inputLabel=''
-                            isRequired={true}
-                            groupName="prescription"
-                            handleChange={handleChange}
-                            displayPrescription={formData.prescription ?? getDefaultPrescription()}
-                        ></PrescriptionEntry>
+                    <div className="prescription-container">
+                        <h3>Glasses Prescription</h3>
+                        <div className="prescription-table">
+                            <div className="header"></div>
+                            <div className="header">Sphere</div>
+                            <div className="header">Cylinder</div>
+                            <div className="header">Axis</div>
+                            <div className="header">Prism</div>
+                            <div className="header">Base</div>
+        
+                            <div className="eye-label">Right Eye (OD)</div>
+                            <div>
+                                <TextEntry 
+                                    inputLabel='Right Sphere'
+                                    isRequired={true}
+                                    groupName="prescription.rightEye.sphere"
+                                    handleChange={handleChange}
+                                    displayValue={formData.prescription.rightEye.sphere}
+                                ></TextEntry>
+                            </div>
+                            <div>{}</div>
+                            <div>{}</div>
+                            <div>{}</div>
+                            <div>{}</div>
+        
+                            <div className="eye-label">Left Eye (OS)</div>
+                            <div>{}</div>
+                            <div>{}</div>
+                            <div>{}</div>
+                            <div>{}</div>
+                            <div>{}</div>
+                        </div>
                     </div>
+                </div>
                 ) : (
                     <div>
                         <TextEntry 

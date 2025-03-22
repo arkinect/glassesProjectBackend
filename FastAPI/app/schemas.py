@@ -13,8 +13,8 @@ class _EyePrescription(BaseModel):
 
 # model for whole prescription
 class _Prescription(BaseModel):
-    left_eye: _EyePrescription
-    right_eye: _EyePrescription
+    leftEye: _EyePrescription
+    rightEye: _EyePrescription
 
 class _Location(BaseModel):
     city: str
