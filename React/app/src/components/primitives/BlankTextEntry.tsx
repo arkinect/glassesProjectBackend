@@ -1,6 +1,6 @@
 // imports
 import React from 'react';
-import './TextEntry.scss';
+import './BlankTextEntry.scss';
 
 // prop interface
 interface props {
@@ -12,7 +12,7 @@ interface props {
 }
 
 // class
-const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, displayValue, handleChange}) => {
+const BlankTextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, displayValue, handleChange}) => {
 
     const display = displayValue === null || displayValue === undefined ? '' : displayValue;
 
@@ -30,4 +30,4 @@ const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, displayV
   );
 };
 
-export default TextEntry;
+export default BlankTextEntry;
