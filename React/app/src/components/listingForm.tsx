@@ -1,10 +1,11 @@
 // imports
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './listingForm.scss';
 import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
 import AlertModal from './primitives/AlertModal';
 import FileUpload from './primitives/FileUpload';
+import BlankTextEntry from './primitives/BlankTextEntry';
 import { Prescription } from '../interfaces';
 
 // prop interface
@@ -165,7 +166,6 @@ const ListingForm: React.FC<props> = ({}) => {
                 </label>
 
                 {isSpecific ? (
-                    <div>
                     <div className="prescription-container">
                         <h3>Glasses Prescription</h3>
                         <div className="prescription-table">
@@ -175,31 +175,82 @@ const ListingForm: React.FC<props> = ({}) => {
                             <div className="header">Axis</div>
                             <div className="header">Prism</div>
                             <div className="header">Base</div>
-        
+
                             <div className="eye-label">Right Eye (OD)</div>
                             <div>
-                                <TextEntry 
-                                    inputLabel='Right Sphere'
-                                    isRequired={true}
-                                    groupName="prescription.rightEye.sphere"
-                                    handleChange={handleChange}
-                                    displayValue={formData.prescription.rightEye.sphere}
-                                ></TextEntry>
-                            </div>
-                            <div>{}</div>
-                            <div>{}</div>
-                            <div>{}</div>
-                            <div>{}</div>
-        
+                                <BlankTextEntry
+                                isRequired={true}
+                                groupName="prescription.rightEye.sphere"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.sphere}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.rightEye.cylinder"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.cylinder}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.rightEye.axis"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.axis}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.rightEye.prism"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.prism}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.rightEye.base"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.base}
+                            /></div>
+                            
                             <div className="eye-label">Left Eye (OS)</div>
-                            <div>{}</div>
-                            <div>{}</div>
-                            <div>{}</div>
-                            <div>{}</div>
-                            <div>{}</div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={true}
+                                groupName="prescription.leftEye.sphere"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.sphere}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.leftEye.cylinder"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.cylinder}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.leftEye.axis"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.axis}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.leftEye.prism"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.prism}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.leftEye.base"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.base}
+                            /></div>
                         </div>
                     </div>
-                </div>
                 ) : (
                     <div>
                         <TextEntry 

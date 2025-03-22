@@ -4,7 +4,6 @@ import './BlankTextEntry.scss';
 
 // prop interface
 interface props {
-    inputLabel: string;
     isRequired: boolean;
     groupName: string;
     displayValue: string | number | null;
@@ -12,21 +11,18 @@ interface props {
 }
 
 // class
-const BlankTextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, displayValue, handleChange}) => {
+const BlankTextEntry: React.FC<props> = ({isRequired, groupName, displayValue, handleChange}) => {
 
     const display = displayValue === null || displayValue === undefined ? '' : displayValue;
 
     return (
-        <div className={"input_border"} data-placeholder={inputLabel}>
-            <input className={"input-field"}
-                type='text'
-                name={groupName} // groupName should match the category in formData
-                onChange={handleChange}
-                required = {isRequired}
-                placeholder={inputLabel}
-                value={display === 0 ? '' : display}
-            />
-        </div>
+        <input className={"input_invisible"}
+            type='text'
+            name={groupName} // groupName should match the category in formData
+            onChange={handleChange}
+            required = {isRequired}
+            value={display === 0 ? '' : display}
+        />
   );
 };
 
