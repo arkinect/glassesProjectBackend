@@ -1,24 +1,12 @@
 // imports
 import React, { useEffect, useMemo } from "react";
 import './PrescriptionGrid.scss'
+import { Prescription } from "../../interfaces";
 
 // prop interface
 interface props {
     pseudoPrescription : number | null;
     prescription : Prescription | null;
-}
-
-interface EyePrescription {
-    sphere: number | null;
-    cylinder: number | null;
-    axis: number | null;
-    prism: number | null;
-    base: string | null;
-}
-  
-interface Prescription {
-    leftEye: EyePrescription;
-    rightEye: EyePrescription;
 }
 
 // class

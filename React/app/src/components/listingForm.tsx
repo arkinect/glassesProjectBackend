@@ -5,47 +5,47 @@ import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
 import AlertModal from './primitives/AlertModal';
 import FileUpload from './primitives/FileUpload';
+import PrescriptionEntry from './primitives/PrescriptionEntry';
+import { Prescription } from '../interfaces';
 
 // prop interface
 interface props {
     
 }
 
-// prescription interface
-interface Prescription {
-    left_eye?: { 
-      sphere: number | null
-      cylinder: number | null 
-      axis: number | null
-      prism: number | null
-      base: string | null
-      add: number | null
-    };
-    right_eye?: { 
-      sphere: number | null
-      cylinder: number | null 
-      axis: number | null
-      prism: number | null
-      base: string | null
-      add: number | null
-     };
-  }
-  
-  // form interface
-  interface NewPostForm {
-    prescription?: Prescription | null;
+// form interface
+interface NewPostForm {
+    prescription: Prescription;
     pseudoPrescription: number | null;
     comment: string | null;
     location: string;
     contact: string;
-  }
+}
 
 // class
 const ListingForm: React.FC<props> = ({}) => {
 
+    // handle creating a blank prescription object
+    const getDefaultPrescription = (): Prescription => ({
+        leftEye: {
+            sphere: null,
+            cylinder: null,
+            axis: null,
+            prism: null,
+            base: null,
+        },
+        rightEye: {
+            sphere: null,
+            cylinder: null,
+            axis: null,
+            prism: null,
+            base: null,
+        },
+    });
+
     // define submission structure
     const [formData, setFormData] = useState<NewPostForm>({
-        prescription: null,
+        prescription: getDefaultPrescription(),
         pseudoPrescription: null,
         comment: '',
         location: '',
@@ -76,14 +76,30 @@ const ListingForm: React.FC<props> = ({}) => {
     // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        const keys = name.split("."); // split for nested interfaces / objects
+    
+        setFormData(prevState => {
+            let updatedData: any = { ...prevState }; // copy existing data
 
-        // Update formData based on field name
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+            if (!updatedData.prescription) {
+                updatedData.prescription = getDefaultPrescription();
+            }
+
+            // traverse updated data (existing data)
+            let temp = updatedData;
+            for (let i = 0; i < keys.length - 1; i++) {
+                const key = keys[i] as keyof typeof temp;
+                temp[key] = { ...temp[key] };
+                temp = temp[key];
+            }
+    
+            // batch update
+            temp[keys[keys.length - 1]] = value || null;
+    
+            return updatedData;
+        });
     };
-
+    
     // handle submit button
     const [resetFileUpload, setResetFileUpload] = useState(false);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -120,10 +136,9 @@ const ListingForm: React.FC<props> = ({}) => {
 
             console.log('Response from backend:', status, data);
             if (status === 201) {
-                // alert("Glasses Posted Successfully!");
                 setIsModalOpen(true);
                 setFormData({
-                    prescription: null,
+                    prescription: getDefaultPrescription(),
                     pseudoPrescription: 0,
                     comment: '',
                     location: '',
@@ -155,7 +170,15 @@ const ListingForm: React.FC<props> = ({}) => {
                 </label>
 
                 {isSpecific ? (
-                    <div>Blank div, this doesnt work yet</div>
+                    <div>
+                        <PrescriptionEntry
+                            inputLabel=''
+                            isRequired={true}
+                            groupName="prescription"
+                            handleChange={handleChange}
+                            displayPrescription={formData.prescription ?? getDefaultPrescription()}
+                        ></PrescriptionEntry>
+                    </div>
                 ) : (
                     <div>
                         <TextEntry 
