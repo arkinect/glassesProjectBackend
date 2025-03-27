@@ -3,18 +3,10 @@ import React, { useEffect, useState } from 'react';
 import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
 import MarketTile from '../components/MarketTile';
+import { Posting } from '../interfaces';
 
 // prop interface
 interface props {
-}
-
-// return data interface
-interface Posting {
-  postNumb: number,
-  location: string,
-  sphere: number,
-  flagged: boolean,
-  imageCard: string,
 }
 
 // class

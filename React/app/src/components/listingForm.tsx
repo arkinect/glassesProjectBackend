@@ -6,20 +6,11 @@ import PrimaryButton from './primitives/PrimaryButton';
 import AlertModal from './primitives/AlertModal';
 import FileUpload from './primitives/FileUpload';
 import BlankTextEntry from './primitives/BlankTextEntry';
-import { Prescription } from '../interfaces';
+import { Prescription, NewPostForm } from '../interfaces';
 
 // prop interface
 interface props {
     
-}
-
-// form interface
-interface NewPostForm {
-    prescription: Prescription;
-    pseudoPrescription: number | null;
-    comment: string | null;
-    location: string;
-    contact: string;
 }
 
 // class

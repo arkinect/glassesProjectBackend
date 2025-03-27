@@ -5,12 +5,11 @@ import { Prescription } from "../../interfaces";
 
 // prop interface
 interface props {
-    pseudoPrescription : number | null;
     prescription : Prescription | null;
 }
 
 // class
-const PrescriptionGrid: React.FC<props> = ({pseudoPrescription, prescription}) => {
+const PrescriptionGrid: React.FC<props> = ({prescription}) => {
     
     const formattedPrescription = useMemo(() => {
         return {
