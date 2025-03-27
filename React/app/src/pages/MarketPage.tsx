@@ -39,7 +39,7 @@ const MarketPage: React.FC<props> = ({}) => {
             ): (
               <div className={"grid_container"}>
                 {postings.map((glasses: {postNumb: number; location: string; sphere: number; imageCard: string}, index) => (
-                  <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={glasses.location || index}></MarketTile>
+                  <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={index}></MarketTile>
                 ))}   
               </div>  
             )}

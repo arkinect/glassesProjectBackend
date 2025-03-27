@@ -1,5 +1,5 @@
 // imports
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import './PrescriptionGrid.scss'
 import { Prescription } from "../../interfaces";
 

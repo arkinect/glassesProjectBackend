@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import './FullPageListing.scss'
 import PrescriptionGrid from './primitives/PrescriptionGrid';
-import {DetailedPosting } from '../interfaces';
+import { DetailedPosting } from '../interfaces';
 
 // props interface
 interface props {
@@ -26,33 +26,31 @@ const FullPageListing: React.FC<props> = ({listingNumber}) => {
             return response.json();
         })
         .then(data => {
-            console.log(data)
-            setDetails(data)
+            // console.log(data)
+            setDetails(data[0])
         })
         .catch(error => setError(error.message));
     }, []);
 
     return(
         <div>
-            {error? (
+            {error ? (
                 <div>Error fetching post data: {error}</div>
-            ):(
-                <PrescriptionGrid prescription={details?.prescription ?? null}></PrescriptionGrid>    
+            ) : (
+                <>
+                    {details?.prescription ? (
+                        <PrescriptionGrid prescription={details.prescription} />
+                    ) : (
+                        <div>Prescription: {details?.pseudoPrescription}</div>
+                    )}
+                    <div>
+                        {/* Add any content here that should always be shown */}
+                        <div>Description: {details?.comment || "No Description"}</div>
+                        <div>Location: {details?.location || "Location not provided"}</div>
+                        <div>Contact: {details?.contact || "No contact info"}</div>
+                    </div>
+                </>
             )}
-            {/* {error? (
-                <div>Error fetching post data: {error}</div>
-            ): details? (
-                <div className='flexbox'>
-                    <div className='flexbox_internal'></div>
-                    <div className='flexbox_internal'>
-                        <PrescriptionGrid pseudoPrescription={details.pseudoPrescription}></PrescriptionGrid>
-
-                    </div>   
-                </div>
-                
-            ): (
-                <div>loading...</div>
-            )} */}
         </div>
     );
 };
