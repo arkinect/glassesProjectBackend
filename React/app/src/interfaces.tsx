@@ -45,3 +45,8 @@ export interface NewPostForm {
     location: string;
     contact: string;
 }
+
+// interface for returning images
+export interface ImageList {
+    images: 
+}

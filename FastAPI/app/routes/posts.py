@@ -43,6 +43,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         testCity = post.location
         testPhoneNumber = post.contact
 
+        # 
         imagePaths = []
         countImages = 0
         directory = Path(__file__).resolve().parent.parent.parent.parent.parent / IMAGE_STORAGE
@@ -99,3 +100,11 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    
+@router.get("getImages/{postNumb}", status_code=status.HTTP_200_OK)
+async def getImages(postNumb: int, db:db_dependency):
+    images = db.query(models.Images).filter(models.Images.postNumb == postNumb).all()
+    if images is None:
+        raise HTTPException(status_code=404, detail="Could not find images for that listing")
+    print(images)
+    return images
