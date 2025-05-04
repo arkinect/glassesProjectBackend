@@ -101,10 +101,12 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
     
-@router.get("getImages/{postNumb}", status_code=status.HTTP_200_OK)
+# retrieve list of links to images for image carousel    
+@router.get("/getImages/{postNumb}", status_code=status.HTTP_200_OK)
 async def getImages(postNumb: int, db:db_dependency):
-    images = db.query(models.Images).filter(models.Images.postNumb == postNumb).all()
-    if images is None:
+    images = db.query(models.Images.imagePath).filter(models.Images.postNumb == postNumb).all()
+    images = [url for (url,) in images]
+    # print(images, flush=True)
+    if len(images) == 0:
         raise HTTPException(status_code=404, detail="Could not find images for that listing")
-    print(images)
     return images

@@ -48,5 +48,5 @@ export interface NewPostForm {
 
 // interface for returning images
 export interface ImageList {
-    images: 
+    images: string[]
 }

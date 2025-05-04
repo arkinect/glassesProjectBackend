@@ -25,7 +25,7 @@ async def marketAll(db: db_dependency):
 @router.get("/{prescription}", status_code=status.HTTP_200_OK)
 async def marketAll(prescription: int, db: db_dependency):
     posts = db.query(models.MarketCard).filter(models.MarketCard.sphere == prescription).all()
-    if posts is None:
+    if len(posts) == 0:
         raise HTTPException(status_code=404, detail="No posts of that prescription found")
     return posts
 
@@ -33,7 +33,7 @@ async def marketAll(prescription: int, db: db_dependency):
 @router.get("/listing/{postNumb}", status_code=status.HTTP_200_OK)
 async def getDetail(postNumb: int, db:db_dependency):
     detail = db.query(models.GlassesDetailed).filter(models.GlassesDetailed.postNumb == postNumb).all()
-    if detail is None:
+    if len(detail) == 0:
         raise HTTPException(status_code=404, detail="Could not find detail for that listing")
     elif len(detail) > 1:
         raise HTTPException(status_code=502, detail="Multiple sets of information were found for this listing" )

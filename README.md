@@ -25,6 +25,9 @@ Auth0
     - cd to glassesProjectBackend
     - alembic revision --autogenerate -m "message"
     - alembic upgrade head
+    - If the steps above failed try: 
+        alembic stamp head, alembic upgrade head, alembic revision --autogenerate -m "message"
+
 
 # Starting the app
 start mySql 
