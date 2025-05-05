@@ -47,6 +47,8 @@ export interface NewPostForm {
 }
 
 // interface for returning images
-export interface ImageList {
-    images: string[]
+export interface singleImage {
+    id: number;
+    postNumb: number;
+    imagePath: string;
 }

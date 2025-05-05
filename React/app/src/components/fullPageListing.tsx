@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import './FullPageListing.scss'
 import PrescriptionGrid from './primitives/PrescriptionGrid';
 import { DetailedPosting } from '../interfaces';
+import ImageCarousel from './primitives/ImageCarousel';
 
 // props interface
 interface props {
@@ -37,13 +38,18 @@ const FullPageListing: React.FC<props> = ({listingNumber}) => {
                 <div>Error fetching post data: {error}</div>
             ) : (
                 <>
+                    {details?.postNumb ? (
+                        <ImageCarousel listingNumber={details.postNumb} />
+                    ) : (
+                        <div>No Images</div>
+                    )}
                     {details?.prescription ? (
                         <PrescriptionGrid prescription={details.prescription} />
                     ) : (
                         <div>Prescription: {details?.pseudoPrescription}</div>
                     )}
                     <div>
-                        {/* Add any content here that should always be shown */}
+                        {/* Any content here will always be shown */}
                         <div>Description: {details?.comment || "No Description"}</div>
                         <div>Location: {details?.location || "Location not provided"}</div>
                         <div>Contact: {details?.contact || "No contact info"}</div>

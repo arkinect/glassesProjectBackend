@@ -38,7 +38,7 @@ const MarketPage: React.FC<props> = ({}) => {
               <div>Error fetching market data: {error}</div>
             ): (
               <div className={"grid_container"}>
-                {postings.map((glasses: {postNumb: number; location: string; sphere: number; imageCard: string}, index) => (
+                {postings.map((glasses: Posting, index) => (
                   <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={index}></MarketTile>
                 ))}   
               </div>  
