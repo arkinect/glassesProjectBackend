@@ -3,8 +3,8 @@
 // spacing
 .flexbox_fullPageListing {
     display: flex;
-    padding: 10px;
-    justify-content: space-between;
+    // padding: 10px;
+    justify-content: center;
     align-items: center;
 }
 
@@ -12,6 +12,15 @@
     display: flex;
 }
 
+.buffer_horizontal {
+    margin: 20px;
+}
+
+.centre_div {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2vh;
+}
 // text
 
 // buttons

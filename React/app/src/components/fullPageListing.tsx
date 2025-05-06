@@ -37,28 +37,36 @@ const FullPageListing: React.FC<props> = ({listingNumber}) => {
             {error ? (
                 <div>Error fetching post data: {error}</div>
             ) : (
-                <>
+                <div>
+                    <div className={"centre_div"}>
                     {details?.postNumb ? (
                         <ImageCarousel listingNumber={details.postNumb} />
                     ) : (
                         <div>No Images</div>
                     )}
-                    {details?.prescription ? (
-                        <div>
-                            <PrescriptionGrid prescription={details.prescription} />
-                            <div>Prescription Info: {details?.pseudoPrescription}</div>
-                        </div>
-                    ) : (
-                        <div>Prescription: {details?.pseudoPrescription}</div>
-                    )}
-                    <div>
-                        {/* Any content here will always be shown */}
-                        <div>Description: {details?.comment || "No Description"}</div>
-                        <div>Location: {details?.location || "Location not provided"}</div>
-                        <div>Contact: {details?.contact || "No contact info"}</div>
                     </div>
-                </>
+                    <div className={"flexbox_fullPageListing"}>
+                        
+                        <div className={"flexbox_internal"}>
+                            {details?.prescription ? (
+                                <PrescriptionGrid prescription={details.prescription} />                        
+                            ) : (
+                                <div></div>
+                            )}
+                        </div>
+                        <div className='buffer_horizontal'></div>
+                        <div>
+                            {/* Any content here will always be shown */}
+                            <div>Prescription Info: {details?.pseudoPrescription || "No Additional Information"}</div>
+                            <div>Description: {details?.comment || "No Description"}</div>
+                            <div>Location: {details?.location || "Location not provided"}</div>
+                            <div>Contact: {details?.contact || "No contact info"}</div>
+                        </div>
+                    </div>
+                </div>
             )}
+
+            
         </div>
     );
 };
