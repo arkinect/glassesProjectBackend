@@ -28,7 +28,7 @@ const SiteHeader: React.FC<props> = ({}) => {
   };
 
   return (
-      <div className={"header_frame flexbox_header"}>
+    <div className={"header_frame flexbox_header"}>
       <div className={"flexbox_internal"}> {/*Left group*/}
         <img src='' className={"logo_placeholder"}></img> {/*This will become some kind of logo*/}
         <div className={"font_website_title"}>Website name</div>
@@ -36,20 +36,20 @@ const SiteHeader: React.FC<props> = ({}) => {
 
       {/*Right group*/}
       {isAuthenticated? (
-          <div className={"flexbox_internal"}> 
-            <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
-            <div className='buffer_horizontal'></div>
-            <LinkButton text='New Post' handleClick={navToNewListing}></LinkButton>
-            <div className='buffer_horizontal'></div>
-            <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
-          </div> 
-        ):(
-          <div className={"flexbox_internal"}>
-            <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
-            <div className='buffer_horizontal'></div>
-            <PrimaryButton text='Log In' handleClick={loginWithRedirect}></PrimaryButton>
-          </div>
-        )}
+        <div className={"flexbox_internal"}> 
+          <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
+          <div className='buffer_horizontal'></div>
+          <LinkButton text='New Post' handleClick={navToNewListing}></LinkButton>
+          <div className='buffer_horizontal'></div>
+          <LinkButton text='Profile' handleClick={navToProfile}></LinkButton>
+        </div> 
+      ):(
+        <div className={"flexbox_internal"}>
+          <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
+          <div className='buffer_horizontal'></div>
+          <PrimaryButton text='Log In' handleClick={loginWithRedirect}></PrimaryButton>
+        </div>
+      )}
     </div>
   );
 };

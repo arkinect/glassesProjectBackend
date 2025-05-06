@@ -44,7 +44,10 @@ const FullPageListing: React.FC<props> = ({listingNumber}) => {
                         <div>No Images</div>
                     )}
                     {details?.prescription ? (
-                        <PrescriptionGrid prescription={details.prescription} />
+                        <div>
+                            <PrescriptionGrid prescription={details.prescription} />
+                            <div>Prescription Info: {details?.pseudoPrescription}</div>
+                        </div>
                     ) : (
                         <div>Prescription: {details?.pseudoPrescription}</div>
                     )}
