@@ -1,5 +1,5 @@
 // imports
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './TextEntry.scss';
 
 // prop interface
@@ -18,7 +18,7 @@ const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, displayV
 
     return (
         <div className={"input_border"} data-placeholder={inputLabel}>
-            <input className={"input-field"}
+            <input className={"input_field"}
                 type='text'
                 name={groupName} // groupName should match the category in formData
                 onChange={handleChange}

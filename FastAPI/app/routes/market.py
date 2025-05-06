@@ -1,8 +1,6 @@
 # imports
 from fastapi import APIRouter, status, HTTPException
-from fastapi.responses import FileResponse
 from dotenv import load_dotenv
-from pathlib import Path
 import os
 
 from database import db_dependency
@@ -27,17 +25,16 @@ async def marketAll(db: db_dependency):
 @router.get("/{prescription}", status_code=status.HTTP_200_OK)
 async def marketAll(prescription: int, db: db_dependency):
     posts = db.query(models.MarketCard).filter(models.MarketCard.sphere == prescription).all()
-    if posts is None:
+    if len(posts) == 0:
         raise HTTPException(status_code=404, detail="No posts of that prescription found")
     return posts
 
-# pass images to frontend
-@router.get("/image/{imageName}", status_code=status.HTTP_200_OK)
-async def getImages(imageName: str):
-    directory = Path(__file__).resolve().parent.parent.parent.parent.parent / IMAGE_STORAGE / imageName
-    print(directory)
-    if not directory.exists():
-        pass
-        # raise HTTPException(status_code=404, detail="Image for this post could not be found")
-    else:
-        return FileResponse(directory)
+# retrieve detailed information for listing page
+@router.get("/listing/{postNumb}", status_code=status.HTTP_200_OK)
+async def getDetail(postNumb: int, db:db_dependency):
+    detail = db.query(models.GlassesDetailed).filter(models.GlassesDetailed.postNumb == postNumb).all()
+    if len(detail) == 0:
+        raise HTTPException(status_code=404, detail="Could not find detail for that listing")
+    elif len(detail) > 1:
+        raise HTTPException(status_code=502, detail="Multiple sets of information were found for this listing" )
+    return detail

@@ -30,7 +30,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         ### business logic
         # find a value for sphere (most important part of prescription) with prefrence on the actual prescription 
         try:
-            recordedSphere = max(post.prescription.left_eye.sphere, post.prescription.right_eye.sphere)
+            recordedSphere = max(post.prescription.leftEye.sphere, post.prescription.rightEye.sphere)
         except:
             recordedSphere = post.pseudoPrescription
 
@@ -43,6 +43,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         testCity = post.location
         testPhoneNumber = post.contact
 
+        # 
         imagePaths = []
         countImages = 0
         directory = Path(__file__).resolve().parent.parent.parent.parent.parent / IMAGE_STORAGE
@@ -53,6 +54,10 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
                 f.write(await image.read())
             imagePaths.append(str(loggedFileName))
             countImages += 1
+
+        # create a dict from the presription data
+        prescription_data = post.prescription.dict()
+
 
         ### create models and post to db
         marketPostModel = models.MarketCard(
@@ -67,7 +72,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
         detailedPostModel = models.GlassesDetailed(
             # postNumb=postNumber, # removed because it refs mkt table
             flagged=False,
-            prescription=post.prescription,
+            prescription=prescription_data,
             pseudoPrescription=post.pseudoPrescription,
             comment=post.comment,
             user=None, # will have to poll active user, update schema
@@ -95,3 +100,12 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    
+# retrieve list of links to images for image carousel    
+@router.get("/getImages/{postNumb}", status_code=status.HTTP_200_OK)
+async def getImages(postNumb: int, db:db_dependency):
+    images = db.query(models.Images).filter(models.Images.postNumb == postNumb).all()
+    # print(images, flush=True)
+    if len(images) == 0:
+        raise HTTPException(status_code=404, detail="Could not find images for that listing")
+    return images

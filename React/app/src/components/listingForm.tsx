@@ -1,51 +1,42 @@
 // imports
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './listingForm.scss';
 import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
 import AlertModal from './primitives/AlertModal';
 import FileUpload from './primitives/FileUpload';
+import BlankTextEntry from './primitives/BlankTextEntry';
+import { Prescription, NewPostForm } from '../interfaces';
 
 // prop interface
 interface props {
     
 }
 
-// prescription interface
-interface Prescription {
-    left_eye?: { 
-      sphere: number | null
-      cylinder: number | null 
-      axis: number | null
-      prism: number | null
-      base: string | null
-      add: number | null
-    };
-    right_eye?: { 
-      sphere: number | null
-      cylinder: number | null 
-      axis: number | null
-      prism: number | null
-      base: string | null
-      add: number | null
-     };
-  }
-  
-  // form interface
-  interface NewPostForm {
-    prescription?: Prescription | null;
-    pseudoPrescription: number | null;
-    comment: string | null;
-    location: string;
-    contact: string;
-  }
-
 // class
 const ListingForm: React.FC<props> = ({}) => {
 
+    // handle creating a blank prescription object
+    const getEmptyPrescription = (): Prescription => ({
+        leftEye: {
+            sphere: null,
+            cylinder: null,
+            axis: null,
+            prism: null,
+            base: null,
+        },
+        rightEye: {
+            sphere: null,
+            cylinder: null,
+            axis: null,
+            prism: null,
+            base: null,
+        },
+    });
+
     // define submission structure
     const [formData, setFormData] = useState<NewPostForm>({
-        prescription: null,
+        prescription: getEmptyPrescription(),
         pseudoPrescription: null,
         comment: '',
         location: '',
@@ -76,14 +67,26 @@ const ListingForm: React.FC<props> = ({}) => {
     // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        const keys = name.split("."); // split for nested interfaces / objects
+    
+        setFormData(prevState => {
+            let updatedData: any = { ...prevState }; // copy existing data
 
-        // Update formData based on field name
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+            // traverse updated data (existing data)
+            let temp = updatedData;
+            for (let i = 0; i < keys.length - 1; i++) {
+                const key = keys[i] as keyof typeof temp;
+                temp[key] = { ...temp[key] };
+                temp = temp[key];
+            }
+    
+            // batch update
+            temp[keys[keys.length - 1]] = value || null;
+    
+            return updatedData;
+        });
     };
-
+    
     // handle submit button
     const [resetFileUpload, setResetFileUpload] = useState(false);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -120,10 +123,9 @@ const ListingForm: React.FC<props> = ({}) => {
 
             console.log('Response from backend:', status, data);
             if (status === 201) {
-                // alert("Glasses Posted Successfully!");
                 setIsModalOpen(true);
                 setFormData({
-                    prescription: null,
+                    prescription: getEmptyPrescription(),
                     pseudoPrescription: 0,
                     comment: '',
                     location: '',
@@ -155,7 +157,91 @@ const ListingForm: React.FC<props> = ({}) => {
                 </label>
 
                 {isSpecific ? (
-                    <div>Blank div, this doesnt work yet</div>
+                    <div className="prescription-container">
+                        <h3>Glasses Prescription</h3>
+                        <div className="prescription-table">
+                            <div className="header"></div>
+                            <div className="header">Sphere</div>
+                            <div className="header">Cylinder</div>
+                            <div className="header">Axis</div>
+                            <div className="header">Prism</div>
+                            <div className="header">Base</div>
+
+                            <div className="eye-label">Right Eye (OD)</div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={true}
+                                groupName="prescription.rightEye.sphere"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.sphere}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.rightEye.cylinder"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.cylinder}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.rightEye.axis"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.axis}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.rightEye.prism"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.prism}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.rightEye.base"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.rightEye.base}
+                            /></div>
+                            
+                            <div className="eye-label">Left Eye (OS)</div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={true}
+                                groupName="prescription.leftEye.sphere"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.sphere}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.leftEye.cylinder"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.cylinder}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.leftEye.axis"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.axis}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.leftEye.prism"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.prism}
+                            /></div>
+                            <div>
+                                <BlankTextEntry
+                                isRequired={false}
+                                groupName="prescription.leftEye.base"
+                                handleChange={handleChange}
+                                displayValue={formData.prescription.leftEye.base}
+                            /></div>
+                        </div>
+                    </div>
                 ) : (
                     <div>
                         <TextEntry 

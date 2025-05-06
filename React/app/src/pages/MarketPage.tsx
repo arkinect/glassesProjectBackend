@@ -3,18 +3,10 @@ import React, { useEffect, useState } from 'react';
 import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
 import MarketTile from '../components/MarketTile';
+import { Posting } from '../interfaces';
 
 // prop interface
 interface props {
-}
-
-// return data interface
-interface Posting {
-  postNumb: number,
-  location: string,
-  sphere: number,
-  flagged: boolean,
-  imageCard: string,
 }
 
 // class
@@ -37,23 +29,22 @@ const MarketPage: React.FC<props> = ({}) => {
 
   return (
       <div>
-      <header>
-        <SiteHeader></SiteHeader>
-      </header>
-      <main>
-        <div className={"spacing_page_margins"}> {/* page margins  */}
-          {error? (
-            <div>Error fetching market data: {error}</div>
-          ):(
-            <div className={"grid_container"}>
-            {postings.map((glasses: { location: string; sphere: number; imageCard: string}, index) => (
-              <MarketTile location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={glasses.location || index}></MarketTile>
-            ))}   
-          </div>  
-          )}
-          
-        </div>
-      </main>
+        <header>
+          <SiteHeader></SiteHeader>
+        </header>
+        <main>
+          <div className={"spacing_page_margins"}> {/* page margins  */}
+            {error? (
+              <div>Error fetching market data: {error}</div>
+            ): (
+              <div className={"grid_container"}>
+                {postings.map((glasses: Posting, index) => (
+                  <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={index}></MarketTile>
+                ))}   
+              </div>  
+            )}
+          </div>
+        </main>
     </div>
   );
 };
