@@ -78,7 +78,7 @@ const FileUpload: React.FC<props> = ({ onFileUpload, resetPreviews }) => {
               {previewUrls.map((url, index) => (
                 <div key={index} className="imagePreviewWrapper">
                   <img src={url} alt={`Preview ${index + 1}`} className="imagePreview" />
-                  <button className="removeButton" onClick={() => handleRemoveImage(index)}>X</button>
+                  <button className="removeButton" type="button" onClick={() => handleRemoveImage(index)}>X</button>
                 </div>
               ))}
             </div>
