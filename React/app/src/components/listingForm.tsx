@@ -173,6 +173,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={true}
                                 groupName="prescription.rightEye.sphere"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.rightEye.sphere}
                             /></div>
                             <div>
@@ -180,6 +181,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={false}
                                 groupName="prescription.rightEye.cylinder"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.rightEye.cylinder}
                             /></div>
                             <div>
@@ -187,6 +189,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={false}
                                 groupName="prescription.rightEye.axis"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.rightEye.axis}
                             /></div>
                             <div>
@@ -194,6 +197,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={false}
                                 groupName="prescription.rightEye.prism"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.rightEye.prism}
                             /></div>
                             <div>
@@ -201,6 +205,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={false}
                                 groupName="prescription.rightEye.base"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.rightEye.base}
                             /></div>
                             
@@ -210,6 +215,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={true}
                                 groupName="prescription.leftEye.sphere"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.leftEye.sphere}
                             /></div>
                             <div>
@@ -217,6 +223,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={false}
                                 groupName="prescription.leftEye.cylinder"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.leftEye.cylinder}
                             /></div>
                             <div>
@@ -224,6 +231,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={false}
                                 groupName="prescription.leftEye.axis"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.leftEye.axis}
                             /></div>
                             <div>
@@ -231,6 +239,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={false}
                                 groupName="prescription.leftEye.prism"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.leftEye.prism}
                             /></div>
                             <div>
@@ -238,6 +247,7 @@ const ListingForm: React.FC<props> = ({}) => {
                                 isRequired={false}
                                 groupName="prescription.leftEye.base"
                                 handleChange={handleChange}
+                                enforceNumbers = {true}
                                 displayValue={formData.prescription.leftEye.base}
                             /></div>
                         </div>

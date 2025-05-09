@@ -13,7 +13,8 @@ const PrimaryButton: React.FC<props> = ({ text, handleClick}) => {
     return (
       <button 
         className="button_default font_button"
-        onClick={handleClick}>
+        onClick={handleClick}
+        type="button">
           {text}
       </button>
     );
