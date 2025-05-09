@@ -249,6 +249,7 @@ const ListingForm: React.FC<props> = ({}) => {
                             isRequired={true}
                             groupName="pseudoPrescription"
                             handleChange={handleChange}
+                            enforceNumbers = {true}
                             displayValue={formData.pseudoPrescription}
                         ></TextEntry>
                     </div>
