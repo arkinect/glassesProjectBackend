@@ -32,7 +32,7 @@ const TextEntry: React.FC<props> = ({inputLabel, isRequired, groupName, displayV
         // allow navigation
         const navigationKeys = [
             "Backspace", "Delete", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown",
-            "Tab", "Home", "End"
+            "Tab", "Home", "End", "Enter"
         ];
         if (navigationKeys.includes(key)) return;
 
