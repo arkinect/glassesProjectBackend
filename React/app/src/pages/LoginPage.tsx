@@ -27,6 +27,17 @@ const LoginPage: React.FC<Props> = () => {
   // When authetification is complete, nav to market
   useEffect(() => {
     if (isAuthenticated && user) {
+      const sub = user.sub;
+      fetch('http://localhost:8000/users/new/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id:sub})
+      })
+      .then(res => res.json())
+      .then(data => console.log("Response:", data))
+      .catch(err => console.error("Error:", err));
       navigate("/market");
     }
   }, [isAuthenticated, user, navigate]);
