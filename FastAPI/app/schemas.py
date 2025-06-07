@@ -29,9 +29,7 @@ class MarketPosting(BaseModel):
 
 ### post schemas
 class User(BaseModel):
-    username: str
-    defaultContact: str
-    defaultLocation: str
+    id: str
 
 class NewPostForm(BaseModel):
     prescription: Optional[_Prescription] = None
