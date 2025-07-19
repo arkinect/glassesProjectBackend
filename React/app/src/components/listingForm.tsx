@@ -7,6 +7,7 @@ import AlertModal from './primitives/AlertModal';
 import FileUpload from './primitives/FileUpload';
 import BlankTextEntry from './primitives/BlankTextEntry';
 import { Prescription, NewPostForm } from '../interfaces';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // prop interface
 interface props {
@@ -89,6 +90,7 @@ const ListingForm: React.FC<props> = ({}) => {
     
     // handle submit button
     const [resetFileUpload, setResetFileUpload] = useState(false);
+    const { getAccessTokenSilently } = useAuth0();
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -104,10 +106,17 @@ const ListingForm: React.FC<props> = ({}) => {
             formDataWithFiles.append('images', file);
         });
 
-        console.log(formDataWithFiles)
-        fetch('http://localhost:8000/posts/new/', {
-            method: 'POST',
-            body: formDataWithFiles
+        getAccessTokenSilently()
+        .then(token => {
+            console.log(token);
+            console.log(formDataWithFiles)
+            return fetch('http://localhost:8000/posts/new/', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: formDataWithFiles
+            });
         })
         .then((response) => 
             response

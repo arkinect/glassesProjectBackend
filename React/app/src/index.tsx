@@ -10,6 +10,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+export const Auth0Audience = process.env.REACT_APP_AUTH0_API_AUDIENCE
 
 const Auth0Domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const Auth0ClientID = process.env.REACT_APP_AUTH0_CLIENT_ID;

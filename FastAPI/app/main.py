@@ -30,7 +30,7 @@ app.include_router(router)
 
 # pass images to frontend
 @app.get("/image/{imageName}", status_code=status.HTTP_200_OK)
-async def getImages(imageName: str):
+async def get_images(imageName: str):
     directory = Path(__file__).resolve().parent.parent.parent.parent / IMAGE_STORAGE / imageName
     print(directory)
     if not directory.exists():

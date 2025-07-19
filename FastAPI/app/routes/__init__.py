@@ -1,12 +1,12 @@
 from fastapi import APIRouter
-from .users import router as usersRouter
-from .market import router as marketRouter
-from .posts import router as postsRouter
+from .users import router as users_router
+from .market import router as market_router
+from .posts import router as posts_router
 
 # Create a main router to group all route files
 router = APIRouter()
 
 # Include all route files
-router.include_router(usersRouter, prefix="/users", tags=["Users"])
-router.include_router(marketRouter, prefix="/market", tags=["Market"])
-router.include_router(postsRouter, prefix="/posts", tags=["Posts"])
+router.include_router(users_router, prefix="/users", tags=["Users"])
+router.include_router(market_router, prefix="/market", tags=["Market"])
+router.include_router(posts_router, prefix="/posts", tags=["Posts"])
