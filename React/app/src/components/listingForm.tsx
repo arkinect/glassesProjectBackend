@@ -106,7 +106,7 @@ const ListingForm: React.FC<props> = ({}) => {
             formDataWithFiles.append('images', file);
         });
 
-        getAccessTokenSilently()
+        getAccessTokenSilently({audience: "YOUR_API_AUDIENCE_HERE"} as any)
         .then(token => {
             console.log(token);
             console.log(formDataWithFiles)
