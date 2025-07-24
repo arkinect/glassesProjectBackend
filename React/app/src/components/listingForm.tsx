@@ -7,7 +7,6 @@ import AlertModal from './primitives/AlertModal';
 import FileUpload from './primitives/FileUpload';
 import BlankTextEntry from './primitives/BlankTextEntry';
 import { Prescription, NewPostForm } from '../interfaces';
-import { useAuth0 } from '@auth0/auth0-react';
 import { BackendURL } from '..';
 
 // prop interface
@@ -91,7 +90,6 @@ const ListingForm: React.FC<props> = ({}) => {
     
     // handle submit button
     const [resetFileUpload, setResetFileUpload] = useState(false);
-    const { getAccessTokenSilently } = useAuth0();
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
