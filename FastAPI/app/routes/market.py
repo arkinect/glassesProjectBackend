@@ -1,17 +1,11 @@
 # imports
 from fastapi import APIRouter, status, HTTPException
-from dotenv import load_dotenv
-import os
 
 from database import db_dependency
 import models
 
 # router
 router = APIRouter()
-
-# load from env
-load_dotenv()
-IMAGE_STORAGE=os.getenv('UPLOAD_DIRECTORY')
 
 # get all market data      
 @router.get("/all/", status_code=status.HTTP_200_OK)

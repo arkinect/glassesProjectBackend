@@ -1,5 +1,5 @@
 // imports
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
 import ListingForm from '../components/listingForm';

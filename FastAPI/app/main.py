@@ -2,23 +2,18 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
-from dotenv import load_dotenv
-import os
 
+from config import IMAGE_STORAGE
 from database import engine
 import models
 from routes import router
-
-### retrieve from .env
-load_dotenv()
-IMAGE_STORAGE=os.getenv('UPLOAD_DIRECTORY')
 
 ### app
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],# allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

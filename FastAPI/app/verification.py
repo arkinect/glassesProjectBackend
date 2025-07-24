@@ -1,17 +1,10 @@
-import os
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Cookie, HTTPException
+from fastapi.security import HTTPBearer
 from jose import jwt 
 import requests
-from dotenv import load_dotenv
 
+from config import API_AUDIENCE, AUTH0_DOMAIN
 
-
-
-load_dotenv()
-
-AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
-API_AUDIENCE = os.getenv("AUTH0_API_AUDIENCE")
 ALGORITHMS = ["RS256"]
 JWKS_URL = f"https://{AUTH0_DOMAIN}/.well-known/jwks.json"
 
@@ -33,22 +26,22 @@ def get_public_key(token):
     jwks = get_jwks()["keys"]
     for key in jwks:
         if key["kid"] == unverified_header["kid"]:
-            return jwt.algorithms.RSAAlgorithm.from_jwk(key)
+            return key
     raise Exception("Public key not found.")
 
-def get_current_user(token: HTTPAuthorizationCredentials = Depends(security)):
+def get_current_user(access_token: str = Cookie(None)):
+    if not access_token:
+        raise HTTPException(401, "Missing access token")
     try:
-        public_key = get_public_key(token.credentials)
+        public_key = get_public_key(access_token)
         payload = jwt.decode(
-            token.credentials,
+            access_token,
             public_key,
             algorithms=ALGORITHMS,
             audience=API_AUDIENCE,
             issuer=f"https://{AUTH0_DOMAIN}/"
         )
         return payload["sub"]
-    except Exception:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid credentials"
-        )
+    except Exception as e:
+        print(f"Token validation failed: {e}")
+        raise HTTPException(401, "Invalid or expired token")

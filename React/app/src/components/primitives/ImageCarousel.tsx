@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import './ImageCarousel.scss';
 import { singleImage } from '../../interfaces';
 import PrimaryButton from './PrimaryButton';
+import { BackendURL } from '../..';
 
 // props
 interface props {
@@ -18,7 +19,7 @@ const ImageCarousel: React.FC<props> = ({listingNumber}) => {
     const [error, setError] = useState<string | null>(null);
     
     useEffect(() => {
-        fetch(`http://localhost:8000/posts/getImages/${listingNumber}`)
+        fetch(`${BackendURL}/posts/getImages/${listingNumber}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -53,7 +54,7 @@ const ImageCarousel: React.FC<props> = ({listingNumber}) => {
             <div className={"image_container"}>
               {imageList.map((image: singleImage, index) => (
                 <img 
-                  src={`http://localhost:8000/image/${image.imagePath}`} 
+                  src={`${BackendURL}/image/${image.imagePath}`} 
                   className={"image_scaling"}
                   style={{ display: index === imageIndex ? 'block' : 'none' }}>
                 </img>

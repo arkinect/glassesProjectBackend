@@ -5,6 +5,7 @@ import './FullPageListing.scss'
 import PrescriptionGrid from './primitives/PrescriptionGrid';
 import { DetailedPosting } from '../interfaces';
 import ImageCarousel from './primitives/ImageCarousel';
+import { BackendURL } from '..';
 
 // props interface
 interface props {
@@ -19,7 +20,7 @@ const FullPageListing: React.FC<props> = ({listingNumber}) => {
     const [error, setError] = useState<string | null>(null);
   
     useEffect(() => {
-        fetch(`http://localhost:8000/market/listing/${listingNumber}`)
+        fetch(`${BackendURL}/market/listing/${listingNumber}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

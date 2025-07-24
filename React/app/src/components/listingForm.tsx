@@ -8,6 +8,7 @@ import FileUpload from './primitives/FileUpload';
 import BlankTextEntry from './primitives/BlankTextEntry';
 import { Prescription, NewPostForm } from '../interfaces';
 import { useAuth0 } from '@auth0/auth0-react';
+import { BackendURL } from '..';
 
 // prop interface
 interface props {
@@ -106,17 +107,10 @@ const ListingForm: React.FC<props> = ({}) => {
             formDataWithFiles.append('images', file);
         });
 
-        getAccessTokenSilently({audience: "YOUR_API_AUDIENCE_HERE"} as any)
-        .then(token => {
-            console.log(token);
-            console.log(formDataWithFiles)
-            return fetch('http://localhost:8000/posts/new/', {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                body: formDataWithFiles
-            });
+        fetch(`${BackendURL}/posts/new/`, {
+            method: 'POST',
+            credentials: 'include',
+            body: formDataWithFiles
         })
         .then((response) => 
             response

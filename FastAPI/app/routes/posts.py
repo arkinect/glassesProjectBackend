@@ -4,23 +4,16 @@ from fastapi.responses import JSONResponse
 from typing import List
 from sqlalchemy import func
 from pathlib import Path
-from dotenv import load_dotenv
 import json
-import os
 
+from config import IMAGE_STORAGE
 from verification import get_current_user
 import schemas
 import models
 from database import db_dependency
-from log import logger
 
 # router
 router = APIRouter()
-
-# load from env
-load_dotenv()
-IMAGE_STORAGE=os.getenv('UPLOAD_DIRECTORY')
-
 
 # create a new post from the glasses form
 @router.post("/new/", status_code=status.HTTP_201_CREATED)
