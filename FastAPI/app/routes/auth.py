@@ -1,11 +1,13 @@
 # imports
 from typing import Optional
-from fastapi import Cookie, APIRouter
+from fastapi import Cookie, APIRouter, HTTPException
 from fastapi.responses import RedirectResponse, JSONResponse
 import requests
 
+import models
+from database import db_dependency
 from verification import get_current_user
-from config import AUTH0_DOMAIN, CLIENT_ID, CLIENT_SECRET, API_AUDIENCE, GENERIC_REDIRECT_URI, LOGIN_REDIRECT_URI
+from config import AUTH0_DOMAIN, CLIENT_ID, CLIENT_SECRET, API_AUDIENCE, FRONTEND_URL, BACKEND_URL
 
 # router
 router = APIRouter()
@@ -16,19 +18,19 @@ async def login():
         f"https://{AUTH0_DOMAIN}/authorize"
         f"?response_type=code"
         f"&client_id={CLIENT_ID}"
-        f"&redirect_uri={LOGIN_REDIRECT_URI}"
+        f"&redirect_uri={BACKEND_URL}/auth/token"
         f"&audience={API_AUDIENCE}"
         f"&scope=openid profile email"
     )
 
 @router.get("/token")
-def get_access_token(code: str):
+def get_access_token(code: str, db:db_dependency):
     payload = {
         "grant_type": "authorization_code",
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
         "code": code,
-        "redirect_uri": LOGIN_REDIRECT_URI,
+        "redirect_uri": f"{BACKEND_URL}/auth/token",
     }
     headers = {"content-type": "application/x-www-form-urlencoded"}
     response = requests.post(f"https://{AUTH0_DOMAIN}/oauth/token", data=payload, headers=headers)
@@ -39,8 +41,11 @@ def get_access_token(code: str):
     token = response.json()
     access_token = token.get("access_token")
 
+    # call create user
+    create_user(db=db, access_token=access_token)
+
     # setup cookie
-    response = RedirectResponse(url=GENERIC_REDIRECT_URI)
+    response = RedirectResponse(url=f"{FRONTEND_URL}/market")
     response.set_cookie(
         key="access_token",
         value=access_token,
@@ -58,7 +63,7 @@ async def logout():
         url=(
             f"https://{AUTH0_DOMAIN}/v2/logout"
             f"?client_id={CLIENT_ID}"
-            f"&returnTo={GENERIC_REDIRECT_URI}"
+            f"&returnTo={FRONTEND_URL}/market"
         )
     )
     response.delete_cookie("access_token", path="/")
@@ -73,3 +78,32 @@ def get_me(access_token: Optional[str] = Cookie(None)):
         return {"user": user}
     except Exception:
         return {"user": None}
+
+# handle user creation
+def create_user(db: db_dependency, access_token: str):
+    userinfo_response = requests.get(
+        f"https://{AUTH0_DOMAIN}/userinfo",
+        headers = {
+            "Authorization" : f"Bearer {access_token}"
+        }
+    )
+
+    if userinfo_response.status_code != 200:
+        raise HTTPException(status_code=401, detail="Invalid token or Auth0 error")
+
+    userinfo = userinfo_response.json()
+    auth0_id = userinfo["sub"]
+
+    user = db.query(models.User).filter(models.User.id == auth0_id).first()
+    if user:
+        return {"message": "User already exists"}
+    
+    db_user = models.User(
+        id=auth0_id,
+        flags=0,
+        defaultContact=userinfo["email"],
+        defaultLocation=None,
+    )
+    db.add(db_user)
+    db.commit()
+    return {"message": "User created successfully"}
