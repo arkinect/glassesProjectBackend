@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './MarketTile.scss';
+import { BackendURL } from '..';
 
 // prop interface
 interface props {
@@ -23,7 +24,7 @@ const MarketTile: React.FC<props> = ({postNumb, location, sphere, coverImage}) =
     <button className='button_tile' onClick={navToProduct}>
       <div className={"border_glasses_tile"}>
         <div className={"grid_item block_purple"}>
-            <img src={`http://localhost:8000/image/${coverImage}`} alt={"Glasses"} className={"image_placeholder"}></img>
+            <img src={`${BackendURL}/image/${coverImage}`} alt={"Glasses"} className={"image_placeholder"}></img>
         </div>
         <div className={"flexbox"}>
             <div className={"font_prescription"}>{sphere}</div>

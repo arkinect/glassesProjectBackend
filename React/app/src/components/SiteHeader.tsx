@@ -1,10 +1,11 @@
 // imports
-import React from 'react';
-import {redirect, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {useNavigate } from 'react-router-dom';
 import './SiteHeader.scss'
 import LinkButton from './primitives/LinkButton';
-import { useAuth0 } from '@auth0/auth0-react';
 import PrimaryButton from './primitives/PrimaryButton';
+import { BackendURL } from '..';
+import { useAuth } from './auth/AuthProvider';
 
 // prop interface
 interface props {
@@ -13,7 +14,7 @@ interface props {
 // class
 const SiteHeader: React.FC<props> = ({}) => {
   const navigate = useNavigate();
-  const { isAuthenticated, loginWithRedirect} = useAuth0();
+  const { isAuthenticated } = useAuth(); 
 
   const navToMarket = () => {
       navigate('/market'); 
@@ -25,6 +26,10 @@ const SiteHeader: React.FC<props> = ({}) => {
 
   const navToNewListing = () => {
     navigate('/newListing'); 
+  };
+
+  const handleLogin = () => {
+    window.location.href = `${BackendURL}/auth/login`;
   };
 
   return (
@@ -47,7 +52,7 @@ const SiteHeader: React.FC<props> = ({}) => {
         <div className={"flexbox_internal"}>
           <LinkButton text='Market' handleClick={navToMarket}></LinkButton>
           <div className='buffer_horizontal'></div>
-          <PrimaryButton text='Log In' handleClick={loginWithRedirect}></PrimaryButton>
+          <PrimaryButton text='Log In' handleClick={handleLogin}></PrimaryButton>
         </div>
       )}
     </div>

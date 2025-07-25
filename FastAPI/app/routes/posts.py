@@ -1,13 +1,13 @@
 # imports
-from fastapi import APIRouter, status, HTTPException, Form, UploadFile, File
+from fastapi import APIRouter, Depends, status, HTTPException, Form, UploadFile, File
 from fastapi.responses import JSONResponse
 from typing import List
 from sqlalchemy import func
 from pathlib import Path
-from dotenv import load_dotenv
 import json
-import os
 
+from config import IMAGE_STORAGE
+from verification import get_current_user
 import schemas
 import models
 from database import db_dependency
@@ -15,14 +15,12 @@ from database import db_dependency
 # router
 router = APIRouter()
 
-# load from env
-load_dotenv()
-IMAGE_STORAGE=os.getenv('UPLOAD_DIRECTORY')
-
-
 # create a new post from the glasses form
 @router.post("/new/", status_code=status.HTTP_201_CREATED)
-async def createPost(db: db_dependency, post: str = Form(...), images: List[UploadFile] = File(...)):
+async def create_post(db: db_dependency, post: str = Form(...), images: List[UploadFile] = File(...), current_user: str = Depends(get_current_user)):
+    db_user = db.query(models.User).filter(models.User.id == current_user).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail=current_user)
     try:
         # unpack post json 
         post = schemas.NewPostForm(**json.loads(post))
@@ -103,7 +101,7 @@ async def createPost(db: db_dependency, post: str = Form(...), images: List[Uplo
     
 # retrieve list of links to images for image carousel    
 @router.get("/getImages/{postNumb}", status_code=status.HTTP_200_OK)
-async def getImages(postNumb: int, db:db_dependency):
+async def get_images(postNumb: int, db:db_dependency):
     images = db.query(models.Images).filter(models.Images.postNumb == postNumb).all()
     # print(images, flush=True)
     if len(images) == 0:

@@ -6,11 +6,10 @@ from sqlalchemy.orm import relationship
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(50), unique=True)
-    flags = Column(Integer)  # count flagged posts
+    id = Column(String(50), primary_key=True, index=True)
+    flags = Column(Integer, default=0)  # count flagged posts
     defaultContact = Column(String(50), nullable=True)  # (416) 000-1234
-    defaultLocation = Column(String(50))  # Etobicoke - Toronto ON
+    defaultLocation = Column(String(50), nullable=True)  # Etobicoke - Toronto ON
 
 
 class MarketCard(Base):

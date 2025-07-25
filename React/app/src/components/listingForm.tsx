@@ -7,6 +7,7 @@ import AlertModal from './primitives/AlertModal';
 import FileUpload from './primitives/FileUpload';
 import BlankTextEntry from './primitives/BlankTextEntry';
 import { Prescription, NewPostForm } from '../interfaces';
+import { BackendURL } from '..';
 
 // prop interface
 interface props {
@@ -104,9 +105,9 @@ const ListingForm: React.FC<props> = ({}) => {
             formDataWithFiles.append('images', file);
         });
 
-        console.log(formDataWithFiles)
-        fetch('http://localhost:8000/posts/new/', {
+        fetch(`${BackendURL}/posts/new/`, {
             method: 'POST',
+            credentials: 'include',
             body: formDataWithFiles
         })
         .then((response) => 

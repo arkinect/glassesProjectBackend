@@ -52,3 +52,15 @@ export interface singleImage {
     postNumb: number;
     imagePath: string;
 }
+
+// interface to define auth context
+export type User = string | null;
+
+export interface AuthContextType {
+  isAuthenticated: boolean;
+  user: User | null;
+  loading: boolean;
+  setAuth: (auth: boolean) => void;
+  setUser: (user: User | null) => void;
+  logout: () => void;
+}
