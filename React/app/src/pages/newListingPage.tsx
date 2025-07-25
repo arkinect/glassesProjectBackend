@@ -2,7 +2,7 @@
 import React from 'react';
 import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
-import ListingForm from '../components/listingForm';
+import ListingForm from '../components/ListingForm';
 
 // prop interface
 interface props {
