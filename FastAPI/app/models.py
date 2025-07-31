@@ -1,5 +1,5 @@
 from sqlalchemy import Boolean, Column, Integer, String, Float, JSON, ForeignKey
-from database import Base
+from .database import Base
 from sqlalchemy.orm import relationship
 
 
@@ -8,8 +8,9 @@ class User(Base):
 
     id = Column(String(50), primary_key=True, index=True)
     flags = Column(Integer, default=0)  # count flagged posts
-    defaultContact = Column(String(50), nullable=True)  # (416) 000-1234
-    defaultLocation = Column(String(50), nullable=True)  # Etobicoke - Toronto ON
+    contact = Column(String(50), nullable=True)  # (416) 000-1234
+    location = Column(String(50), nullable=True)  # Etobicoke - Toronto ON
+    prescription2 = Column(JSON, nullable=True)  # to hold all prescription data
 
 
 class MarketCard(Base):

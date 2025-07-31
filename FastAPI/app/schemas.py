@@ -38,3 +38,7 @@ class NewPostForm(BaseModel):
     location: str
     contact: str
 
+class UserInfoForm(BaseModel):
+    prescription: Optional[_Prescription] = None
+    defaultLocation: Optional[_Prescription] = None
+    defaultContact: Optional[_Prescription] = None

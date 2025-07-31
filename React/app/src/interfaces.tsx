@@ -54,7 +54,7 @@ export interface singleImage {
 }
 
 // interface to define auth context
-export type User = string | null;
+type User = string | null;
 
 export interface AuthContextType {
   isAuthenticated: boolean;
@@ -63,4 +63,11 @@ export interface AuthContextType {
   setAuth: (auth: boolean) => void;
   setUser: (user: User | null) => void;
   logout: () => void;
+}
+
+// interface to define shape of user info update
+export interface UserInfoForm {
+    prescription: Prescription,
+    defaultLocation: string | null,
+    defaultContact: string | null,
 }
