@@ -36,7 +36,7 @@ const SiteHeader: React.FC<props> = ({}) => {
     <div className={"header_frame flexbox_header"}>
       <div className={"flexbox_internal"}> {/*Left group*/}
         <img src='' className={"logo_placeholder"}></img> {/*This will become some kind of logo*/}
-        <div className={"font_website_title"}>Website name</div>
+        <div className={"font_website_title"}>OptiSwapti</div>
       </div>
 
       {/*Right group*/}
