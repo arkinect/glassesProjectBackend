@@ -10,7 +10,7 @@ class User(Base):
     flags = Column(Integer, default=0)  # count flagged posts
     contact = Column(String(50), nullable=True)  # (416) 000-1234
     location = Column(String(50), nullable=True)  # Etobicoke - Toronto ON
-    prescription2 = Column(JSON, nullable=True)  # to hold all prescription data
+    prescription = Column(JSON, nullable=True)  # to hold all prescription data
 
 
 class MarketCard(Base):
