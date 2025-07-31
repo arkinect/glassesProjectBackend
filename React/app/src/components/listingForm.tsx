@@ -1,6 +1,6 @@
 // imports
 import React, { useState } from 'react';
-import './listingForm.scss';
+import './ListingForm.scss';
 import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
 import AlertModal from './primitives/AlertModal';
