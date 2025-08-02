@@ -8,3 +8,4 @@ React/app/.env
 imageStorage/
 node_modules/
 alembic/__pycache__/
+.vscode/

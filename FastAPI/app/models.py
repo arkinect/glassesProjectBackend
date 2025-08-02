@@ -1,40 +1,40 @@
 from sqlalchemy import Boolean, Column, Integer, String, Float, JSON, ForeignKey
-from .database import Base
+from database import Base
 from sqlalchemy.orm import relationship
 
 
-class User(Base):
+class user(Base):
     __tablename__ = 'users'
 
     id = Column(String(50), primary_key=True, index=True)
     flags = Column(Integer, default=0)  # count flagged posts
-    contact = Column(String(50), nullable=True)  # (416) 000-1234
-    location = Column(String(50), nullable=True)  # Etobicoke - Toronto ON
+    default_contact = Column(String(50), nullable=True)  # (416) 000-1234
+    default_location = Column(String(50), nullable=True)  # Etobicoke - Toronto ON
     prescription = Column(JSON, nullable=True)  # to hold all prescription data
 
 
-class MarketCard(Base):
-    __tablename__ = 'marketInfo'
+class market_card(Base):
+    __tablename__ = 'market_info'
 
-    postNumb = Column(Integer, primary_key=True)
+    post_numb = Column(Integer, primary_key=True)
     location = Column(String(50))  # Etobicoke - Toronto ON
     sphere = Column(Float, index=True)  # most important part prescription. Use Right eye if they're different
     flagged = Column(Boolean, default=False)
-    imageCard = Column(String(225))  # path to image on market
+    image_card = Column(String(225))  # path to image on market
 
-    detailedInfo = relationship("GlassesDetailed", back_populates="marketCard", uselist=False)
+    detailed_info = relationship("glasses_detailed", back_populates="market_card", uselist=False)
 
 
-class GlassesDetailed(Base):
-    __tablename__ = 'detailedInfo'
+class glasses_detailed(Base):
+    __tablename__ = 'detailed_info'
 
     # Meta data about the post
-    postNumb = Column(Integer, ForeignKey('marketInfo.postNumb'), primary_key=True, index=True)  # Foreign key to MarketCard
+    post_numb = Column(Integer, ForeignKey('market_info.post_numb'), primary_key=True, index=True)  # Foreign key to MarketCard
     flagged = Column(Boolean, default=False)  # whether or not the post has been flagged by the community
 
     # About the posted item
     prescription = Column(JSON, nullable=True)  # to hold all prescription data
-    pseudoPrescription = Column(Float, nullable=True)  # in case they don't know their prescription
+    pseudo_prescription = Column(Float, nullable=True)  # in case they don't know their prescription
     comment = Column(String(100), nullable=True)  # "These were my son's glasses"
 
     # About the poster
@@ -43,18 +43,18 @@ class GlassesDetailed(Base):
     contact = Column(String(50), nullable=True)  # (416) 000-1234
 
     # relationships
-    marketCard = relationship("MarketCard", back_populates="detailedInfo")
+    market_card = relationship("market_card", back_populates="detailed_info")
     # This is the key change: images now reference `GlassesDetailed.postNumb`
-    pictures = relationship("Images", back_populates="glassesDetailed")
+    pictures = relationship("images", back_populates="glasses_detailed")
 
 
-class Images(Base):
+class images(Base):
     __tablename__ = 'images'
 
     id = Column(Integer, primary_key=True)
     # link images to GlassesDetailed directly, not MarketCard
-    postNumb = Column(Integer, ForeignKey('detailedInfo.postNumb'))  # Foreign key to GlassesDetailed
-    imagePath = Column(String(225))
+    post_numb = Column(Integer, ForeignKey('detailed_info.post_numb'))  # Foreign key to GlassesDetailed
+    image_path = Column(String(225))
 
     # Define the relationship back to GlassesDetailed
-    glassesDetailed = relationship("GlassesDetailed", back_populates="pictures")
+    glasses_detailed = relationship("glasses_detailed", back_populates="pictures")

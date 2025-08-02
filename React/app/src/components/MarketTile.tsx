@@ -24,7 +24,7 @@ const MarketTile: React.FC<props> = ({postNumb, location, sphere, coverImage}) =
     <button className='button_tile' onClick={navToProduct}>
       <div className={"border_glasses_tile"}>
         <div className={"grid_item block_purple"}>
-            <img src={`${BackendURL}/image/${coverImage}`} alt={"Glasses"} className={"image_placeholder"}></img>
+            <img src={`${BackendURL}/image/${coverImage}`} alt={String(coverImage)} className={"image_placeholder"}></img>
         </div>
         <div className={"flexbox"}>
             <div className={"font_prescription"}>{sphere}</div>

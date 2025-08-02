@@ -24,9 +24,13 @@ models.Base.metadata.create_all(bind=engine)
 app.include_router(router)
 
 # pass images to frontend
-@app.get("/image/{imageName}", status_code=status.HTTP_200_OK)
-async def get_images(imageName: str):
-    directory = Path(__file__).resolve().parent.parent.parent.parent / IMAGE_STORAGE / imageName
+@app.get("/image/{image_name}", status_code=status.HTTP_200_OK)
+async def get_images(image_name: str):
+
+    if ".." in image_name or image_name.startswith("/"):
+        raise HTTPException(status_code=400, detail="Invalid image name")
+
+    directory = Path(__file__).resolve().parent.parent.parent.parent / IMAGE_STORAGE / image_name
     print(directory)
     if not directory.exists():
         pass
