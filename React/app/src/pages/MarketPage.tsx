@@ -40,10 +40,10 @@ const MarketPage: React.FC<props> = ({}) => {
             ): (
               <div className={"grid_container"}>
                 {postings.map((glasses: Posting, index) => {
-                   console.log('Image name for post', glasses);
                   return(
-                  <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={index}></MarketTile>
-                )})}   
+                    <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={index}></MarketTile>
+                  )
+                })}   
               </div>  
             )}
           </div>
