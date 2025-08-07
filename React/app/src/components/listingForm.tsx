@@ -94,12 +94,7 @@ const ListingForm: React.FC<props> = ({}) => {
         e.preventDefault();
 
         const updatedFormData = { ...formData };
-
-        // if (updatedFormData.pseudoPrescription) {
-        //     updatedFormData.pseudoPrescription = parseFloat(updatedFormData.pseudoPrescription.toString());
-        // }
-        // console.log(updatedFormData)
-
+        
         const formDataWithFiles = new FormData();
         formDataWithFiles.append('post', JSON.stringify(updatedFormData));
         uploadedFiles.forEach((file) => {

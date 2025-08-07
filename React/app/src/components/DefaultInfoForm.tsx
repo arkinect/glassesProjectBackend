@@ -109,7 +109,7 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
                     <TextEntry 
                         inputLabel='City'
                         isRequired={false}
-                        groupName={"location"}
+                        groupName={"defaultLocation"}
                         handleChange={handleChange}
                         displayValue={formData.defaultLocation}
                     ></TextEntry>
@@ -118,7 +118,7 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
                     <TextEntry 
                         inputLabel='Contact'
                         isRequired={false}
-                        groupName={"location"}
+                        groupName={"defaultContact"}
                         handleChange={handleChange}
                         displayValue={formData.defaultContact}
                     ></TextEntry>

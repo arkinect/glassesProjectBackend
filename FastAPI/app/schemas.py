@@ -70,8 +70,8 @@ class singleImage(BaseSchema):
 # schema to define shape of user info update
 class UserInfoForm(BaseSchema):
     prescription: Optional[_Prescription] = None
-    defaultLocation: Optional[_Prescription] = Field(None, alias="default_location")
-    defaultContact: Optional[_Prescription] = Field(None, alias="default_contact")
+    defaultLocation: Optional[str] = Field(None, alias="default_location")
+    defaultContact: Optional[str] = Field(None, alias="default_contact")
 
 # schema used to help define auth context
 class User(BaseSchema):
