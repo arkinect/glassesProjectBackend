@@ -61,7 +61,7 @@ export interface UserInfoForm {
 }
 
 // interface to define auth context
-type User = string | null;
+export type User = string | null;
 
 export interface AuthContextType {
   isAuthenticated: boolean;
