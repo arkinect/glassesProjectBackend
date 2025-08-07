@@ -1,4 +1,4 @@
-// interface for prescription
+// interfaces for prescription
 interface EyePrescription {
     sphere: number | null;
     cylinder: number | null;
@@ -51,6 +51,13 @@ export interface singleImage {
     id: number;
     postNumb: number;
     imagePath: string;
+}
+
+// interface to define shape of user info update
+export interface UserInfoForm {
+    prescription: Prescription,
+    defaultLocation: string | null,
+    defaultContact: string | null,
 }
 
 // interface to define auth context

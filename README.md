@@ -22,12 +22,10 @@ Auth0
     - AUTH0_API_AUDIENCE="<Available from the Auth0 settings page>"
     - AUTH0_CLIENT_SECRET="<Available from the Auth0 settings page>"
     - UPLOAD_DIRECTORY="<Path to directory where you can upload images to>"   
-3. Update structure of mysql tables to reflect models.py (untested, confirm when used next)
+3. Update structure of mysql tables to reflect models.py
     - cd to glassesProjectBackend
     - alembic revision --autogenerate -m "message"
     - alembic upgrade head
-    - If the steps above failed try: 
-        alembic stamp head, alembic upgrade head, alembic revision --autogenerate -m "message"
 
 
 # Starting the app

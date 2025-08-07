@@ -1,23 +1,22 @@
 import sys
 import os
 from logging.config import fileConfig
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from sqlalchemy import engine_from_config, pool
 from alembic import context
-from dotenv import load_dotenv
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'FastAPI')))
-from FastAPI.app.database import Base
-from FastAPI.app import models 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'FastAPI', 'app'))) 
 
-load_dotenv()   
+from database import Base
+from config import URL_DATABASE
+import models # vscode says this is not used but seems to be necessary as alembic breaks when removed 
+
 
 config = context.config
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-db_url = os.getenv("MYSQL_URL")
+db_url = URL_DATABASE
 if db_url is None:
     raise RuntimeError("MYSQL_URL environment variable not set.")
 config.set_main_option("sqlalchemy.url", db_url)
