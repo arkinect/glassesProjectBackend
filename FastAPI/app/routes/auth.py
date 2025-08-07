@@ -6,7 +6,7 @@ import requests
 
 import models
 from database import db_dependency
-import schemas
+from schemas import User
 from user_verification import get_current_user
 from config import AUTH0_DOMAIN, CLIENT_ID, CLIENT_SECRET, API_AUDIENCE, FRONTEND_URL, BACKEND_URL
 
@@ -70,7 +70,7 @@ async def logout():
     response.delete_cookie("access_token", path="/")
     return response
 
-@router.get("/check", response_model=schemas.User)
+@router.get("/check", response_model=User)
 def get_me(access_token: Optional[str] = Cookie(None)):
     if not access_token:
         return {"user": None}
