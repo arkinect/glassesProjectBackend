@@ -103,8 +103,6 @@ async def create_post(db: db_dependency, post: str = Form(...), images: List[Upl
 @router.get("/getImages/{postNumb}", status_code=status.HTTP_200_OK)
 async def get_images(postNumb: int, db:db_dependency) -> List[dict]:
     images = db.query(models.images).filter(models.images.post_numb == postNumb).all()
-    # print(images, flush=True)
     if len(images) == 0:
         raise HTTPException(status_code=404, detail="Could not find images for that listing")
-    # return images
     return serialize_with_schemas([singleImage.model_validate(image) for image in images])

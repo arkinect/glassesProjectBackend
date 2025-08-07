@@ -31,7 +31,6 @@ async def get_images(image_name: str):
         raise HTTPException(status_code=400, detail="Invalid image name")
 
     directory = Path(__file__).resolve().parent.parent.parent.parent / IMAGE_STORAGE / image_name
-    print(directory)
     if not directory.exists():
         pass
         raise HTTPException(status_code=404, detail="Image could not be found")

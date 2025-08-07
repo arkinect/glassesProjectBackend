@@ -126,14 +126,11 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
     }, []);
 
     if (error) {
-        console.log("error page loaded")
         return (<div>Error: {error}</div>)
     }
     if (!formData) {
-        console.log("loading page loaded")
         return (<div>Loading...</div>)
     }
-    console.log("page loaded")
     return(
         <div>
             <form onSubmit={handleSubmit} className="data-entry-form">
