@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, status, HTTPException, Form
 from fastapi.responses import JSONResponse
 import json
 
-from schemas import UserInfoForm
+from schemas import UserInfoForm, serialize_with_schemas
 from user_verification import get_current_user
 import models
 from database import db_dependency
@@ -12,9 +12,8 @@ from database import db_dependency
 router = APIRouter()
 
 # register default information for user
-@router.post("/info", status_code=status.HTTP_201_CREATED)
+@router.put("/info", status_code=status.HTTP_204_NO_CONTENT)
 async def update_info(db: db_dependency, post: str = Form(...), current_user: str = Depends(get_current_user)):
-    print("hit ep")
     db_user = db.query(models.user).filter(models.user.id == current_user).first()
     if not db_user:
         raise HTTPException(status_code=404, detail=current_user)
@@ -41,4 +40,9 @@ async def update_info(db: db_dependency, post: str = Form(...), current_user: st
         raise HTTPException(status_code=500, detail=str(e))
     
 # retrieve default information for user
-# @router.get("/info")
+@router.get("/info", status_code=status.HTTP_200_OK)
+async def retrieve_info(db: db_dependency, current_user: str = Depends(get_current_user)):
+    db_user = db.query(models.user).filter(models.user.id == current_user).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail=current_user)
+    return serialize_with_schemas(UserInfoForm.model_validate(db_user))

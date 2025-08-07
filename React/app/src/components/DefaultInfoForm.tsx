@@ -1,5 +1,5 @@
 // imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './DefaultInfoForm.scss';
 import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
@@ -71,7 +71,7 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
         formDataPackage.append('post', JSON.stringify(updatedFormData));
 
         fetch(`${BackendURL}/user/info/`, {
-            method: 'POST',
+            method: 'PUT',
             credentials: 'include',
             body: formDataPackage
         })
@@ -86,22 +86,42 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
                 console.error("Backend Error:", status, data);
                 throw new Error(`Request failed with status ${status}`);
             }
-
             console.log('Response from backend:', status, data);
-            if (status === 201) {
-                setFormData({
-                    prescription: getEmptyPrescription(),
-                    defaultLocation: '',
-                    defaultContact: ''
-                });
-            }
         })
         .catch(error => {
             console.error('Error submitting form:', error);
         });
     };
-    
 
+    // fill default values
+    const [error, setError] = useState<string | null>(null);
+    useEffect(() => {
+        fetch(`${BackendURL}/user/info`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setFormData(data)
+            console.log(formData)
+        })
+        .catch(error => setError(error.message));
+    }, []);
+
+    if (error) {
+        console.log("error page loaded")
+        return (<div>Error: {error}</div>)
+    }
+    if (!formData) {
+        console.log("loading page loaded")
+        return (<div>Loading...</div>)
+    }
+    console.log("page loaded")
     return(
         <div>
             <form onSubmit={handleSubmit} className="data-entry-form">
