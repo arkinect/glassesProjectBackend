@@ -6,6 +6,7 @@ import PrimaryButton from './primitives/PrimaryButton';
 import BlankTextEntry from './primitives/BlankTextEntry';
 import { Prescription, UserInfoForm } from '../interfaces';
 import { BackendURL } from '..';
+import AlertModal from './primitives/AlertModal';
 
 // prop interface
 interface props {
@@ -87,10 +88,21 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
                 throw new Error(`Request failed with status ${status}`);
             }
             console.log('Response from backend:', status, data);
+
+            if (status === 201) {
+                setIsModalOpen(true);
+            }
         })
         .catch(error => {
             console.error('Error submitting form:', error);
         });
+    };
+
+    // handle modal state
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    const handleModalClose = () => {
+        setIsModalOpen(false); // Close the modal when OK button is clicked
     };
 
     // fill default values
@@ -241,6 +253,14 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
                 </div>
                 <PrimaryButton text='Save' handleClick={handleSubmit}></PrimaryButton>
             </form>
+
+            <AlertModal
+                isOpen={isModalOpen}
+                bodyText="Your Information Has Been Updated"
+                titleText="Success!"
+                buttonText="OK"
+                onClose={handleModalClose}  // Close the modal on OK click
+                />
         </div>
     );
 };
