@@ -4,13 +4,11 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
-app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'FastAPI', 'app'))
-if app_path not in sys.path:
-    sys.path.insert(0, app_path)
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'FastAPI', 'app'))) 
 
 from database import Base
 from config import URL_DATABASE
-import models
+import models # vscode says this is not used but seems to be necessary as alembic breaks when removed 
 
 
 config = context.config
