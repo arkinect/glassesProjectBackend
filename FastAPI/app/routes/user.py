@@ -39,3 +39,6 @@ async def update_info(db: db_dependency, post: str = Form(...), current_user: st
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    
+# retrieve default information for user
+# @router.get("/info")

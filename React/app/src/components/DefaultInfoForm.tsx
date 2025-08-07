@@ -105,24 +105,7 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
     return(
         <div>
             <form onSubmit={handleSubmit} className="data-entry-form">
-                <div>
-                    <TextEntry 
-                        inputLabel='City'
-                        isRequired={false}
-                        groupName={"defaultLocation"}
-                        handleChange={handleChange}
-                        displayValue={formData.defaultLocation}
-                    ></TextEntry>
-                </div>
-                <div>
-                    <TextEntry 
-                        inputLabel='Contact'
-                        isRequired={false}
-                        groupName={"defaultContact"}
-                        handleChange={handleChange}
-                        displayValue={formData.defaultContact}
-                    ></TextEntry>
-                </div>
+                <h1 className='font_formHeading'>Your Info</h1>
                 <div className="prescription-container">
                     <h3>Glasses Prescription</h3>
                     <div className="prescription-table">
@@ -217,6 +200,24 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
                             displayValue={formData.prescription.leftEye.base}
                         /></div>
                     </div>
+                </div>
+                <div>
+                    <TextEntry 
+                        inputLabel='City'
+                        isRequired={false}
+                        groupName={"defaultLocation"}
+                        handleChange={handleChange}
+                        displayValue={formData.defaultLocation}
+                    ></TextEntry>
+                </div>
+                <div>
+                    <TextEntry 
+                        inputLabel='Contact'
+                        isRequired={false}
+                        groupName={"defaultContact"}
+                        handleChange={handleChange}
+                        displayValue={formData.defaultContact}
+                    ></TextEntry>
                 </div>
                 <PrimaryButton text='Save' handleClick={handleSubmit}></PrimaryButton>
             </form>
