@@ -76,14 +76,3 @@ class UserInfoForm(BaseSchema):
 # schema used to help define auth context
 class User(BaseSchema):
     user: Optional[str]
-
-
-# this was probably replaced by posting but I dont want to get rid of it yet cuz im not sure
-# class _Location(BaseModel):
-#     city: str
-
-# class MarketPosting(BaseModel):
-#     prescription: str
-#     owner_name: str
-#     contact: str    
-#     location: _Location
