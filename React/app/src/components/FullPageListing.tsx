@@ -28,7 +28,7 @@ const FullPageListing: React.FC<props> = ({listingNumber}) => {
             return response.json();
         })
         .then(data => {
-            setDetails(data[0])
+            setDetails(data)
         })
         .catch(error => setError(error.message));
     }, []);

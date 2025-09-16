@@ -2,7 +2,7 @@ import { Routes, Route} from 'react-router-dom';
 import './App.css';
 import ProfilePage from './pages/ProfilePage';
 import MarketPage from './pages/MarketPage';
-import NewListingPage from './pages/newListingPage';
+import NewListingPage from './pages/NewListingPage';
 import LogoutPage from './pages/LogoutPage';
 import ListingPage from './pages/ListingPage';
 import PrivateRoute from './components/auth/PrivateRoute';

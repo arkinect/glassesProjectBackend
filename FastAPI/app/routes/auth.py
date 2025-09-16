@@ -6,7 +6,8 @@ import requests
 
 import models
 from database import db_dependency
-from verification import get_current_user
+from schemas import User
+from user_verification import get_current_user
 from config import AUTH0_DOMAIN, CLIENT_ID, CLIENT_SECRET, API_AUDIENCE, FRONTEND_URL, BACKEND_URL
 
 # router
@@ -69,7 +70,7 @@ async def logout():
     response.delete_cookie("access_token", path="/")
     return response
 
-@router.get("/check")
+@router.get("/check", response_model=User)
 def get_me(access_token: Optional[str] = Cookie(None)):
     if not access_token:
         return {"user": None}
@@ -94,15 +95,15 @@ def create_user(db: db_dependency, access_token: str):
     userinfo = userinfo_response.json()
     auth0_id = userinfo["sub"]
 
-    user = db.query(models.User).filter(models.User.id == auth0_id).first()
+    user = db.query(models.user).filter(models.user.id == auth0_id).first()
     if user:
         return {"message": "User already exists"}
     
-    db_user = models.User(
+    db_user = models.user(
         id=auth0_id,
         flags=0,
-        defaultContact=userinfo["email"],
-        defaultLocation=None,
+        default_contact=userinfo["email"],
+        default_location=None,
     )
     db.add(db_user)
     db.commit()

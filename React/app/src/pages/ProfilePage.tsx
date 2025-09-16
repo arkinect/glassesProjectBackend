@@ -4,6 +4,7 @@ import './PageStylings.scss';
 import SiteHeader from '../components/SiteHeader';
 import PrimaryButton from '../components/primitives/PrimaryButton';
 import { useAuth } from '../components/auth/AuthProvider';
+import DefaultInfoForm from '../components/DefaultInfoForm';
 
 // prop interface
 interface props {
@@ -14,10 +15,6 @@ interface props {
 const ProfilePage: React.FC<props> = ({}) => {
 
   const { logout } = useAuth();
-  const handleFileUpload = (files: File[]) => {
-    console.log("File uploaded:", files);
-    // handle save to db or something here
-  };
 
   return (
       <div>
@@ -26,8 +23,9 @@ const ProfilePage: React.FC<props> = ({}) => {
       </header>
       <main>
         <div className={"spacing_page_margins"}> {/* page margins  */}
-            This is the profile page
-            <PrimaryButton text='Logout' handleClick={logout}></PrimaryButton>
+          <DefaultInfoForm></DefaultInfoForm>
+          <div className='spacing'></div>
+          <PrimaryButton text='Logout' handleClick={logout}></PrimaryButton>  
         </div>
       </main>
     </div>

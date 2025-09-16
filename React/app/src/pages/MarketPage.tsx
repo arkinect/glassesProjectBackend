@@ -18,14 +18,14 @@ const MarketPage: React.FC<props> = ({}) => {
 
   useEffect(() => {
     fetch(`${BackendURL}/market/all/`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => setPostings(data))
-      .catch(error => setError(error.message));
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => setPostings(data))
+    .catch(error => setError(error.message));
   }, []);
 
   return (
@@ -39,9 +39,11 @@ const MarketPage: React.FC<props> = ({}) => {
               <div>Error fetching market data: {error}</div>
             ): (
               <div className={"grid_container"}>
-                {postings.map((glasses: Posting, index) => (
-                  <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={index}></MarketTile>
-                ))}   
+                {postings.map((glasses: Posting, index) => {
+                  return(
+                    <MarketTile postNumb={glasses.postNumb} location={glasses.location} sphere={glasses.sphere} coverImage={glasses.imageCard} key={index}></MarketTile>
+                  )
+                })}   
               </div>  
             )}
           </div>

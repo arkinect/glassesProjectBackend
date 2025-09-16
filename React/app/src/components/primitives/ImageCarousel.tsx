@@ -48,7 +48,7 @@ const ImageCarousel: React.FC<props> = ({listingNumber}) => {
           <div>Error fetching market data: {error}</div>
         ): (
           <div className={'flexbox_carousel'}>
-            <div className={'flexbox_internal'} onClick={decrementImage}>
+            <div className={'flexbox_internal'} style={{ display: imageList.length <= 1 ? 'none' : 'flex' }}>
               <PrimaryButton handleClick={decrementImage} text='<'></PrimaryButton>
             </div>
             <div className={"image_container"}>
@@ -60,7 +60,7 @@ const ImageCarousel: React.FC<props> = ({listingNumber}) => {
                 </img>
               ))}
             </div>
-            <div className={'flexbox_internal'}>
+            <div className={'flexbox_internal'} style={{ display: imageList.length <= 1 ? 'none' : 'flex' }}>
               <PrimaryButton handleClick={incrementImage} text='>'></PrimaryButton>
             </div>
           </div>

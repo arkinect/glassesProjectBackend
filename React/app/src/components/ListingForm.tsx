@@ -1,6 +1,6 @@
 // imports
 import React, { useState } from 'react';
-import './listingForm.scss';
+import './ListingForm.scss';
 import TextEntry from './primitives/TextEntry';
 import PrimaryButton from './primitives/PrimaryButton';
 import AlertModal from './primitives/AlertModal';
@@ -94,11 +94,7 @@ const ListingForm: React.FC<props> = ({}) => {
         e.preventDefault();
 
         const updatedFormData = { ...formData };
-
-        if (updatedFormData.pseudoPrescription) {
-            updatedFormData.pseudoPrescription = parseFloat(updatedFormData.pseudoPrescription.toString());
-        }
-
+        
         const formDataWithFiles = new FormData();
         formDataWithFiles.append('post', JSON.stringify(updatedFormData));
         uploadedFiles.forEach((file) => {

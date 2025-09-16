@@ -7,8 +7,8 @@ from pathlib import Path
 import json
 
 from config import IMAGE_STORAGE
-from verification import get_current_user
-import schemas
+from schemas import NewPostForm, serialize_with_schemas, singleImage
+from user_verification import get_current_user
 import models
 from database import db_dependency
 
@@ -18,12 +18,12 @@ router = APIRouter()
 # create a new post from the glasses form
 @router.post("/new/", status_code=status.HTTP_201_CREATED)
 async def create_post(db: db_dependency, post: str = Form(...), images: List[UploadFile] = File(...), current_user: str = Depends(get_current_user)):
-    db_user = db.query(models.User).filter(models.User.id == current_user).first()
+    db_user = db.query(models.user).filter(models.user.id == current_user).first()
     if not db_user:
-        raise HTTPException(status_code=404, detail=current_user)
+        raise HTTPException(status_code=401, detail=current_user)
     try:
         # unpack post json 
-        post = schemas.NewPostForm(**json.loads(post))
+        post = NewPostForm(**json.loads(post))
 
         ### business logic
         # find a value for sphere (most important part of prescription) with prefrence on the actual prescription 
@@ -33,7 +33,7 @@ async def create_post(db: db_dependency, post: str = Form(...), images: List[Upl
             recordedSphere = post.pseudoPrescription
 
         # retrieve the most recent post number
-        maxPostNumber = db.query(func.max(models.GlassesDetailed.postNumb)).scalar()
+        maxPostNumber = db.query(func.max(models.glasses_detailed.post_numb)).scalar()
         postNumber = (maxPostNumber or 0) + 1
 
         # retrieve location from active profile
@@ -58,41 +58,41 @@ async def create_post(db: db_dependency, post: str = Form(...), images: List[Upl
 
 
         ### create models and post to db
-        marketPostModel = models.MarketCard(
+        marketPostModel = models.market_card(
             location=testCity,
             sphere=recordedSphere, 
             flagged=False,
-            postNumb=postNumber,
-            imageCard=imagePaths[0] if imagePaths else None
+            post_numb=postNumber,
+            image_card=imagePaths[0] if imagePaths else None
         )
         db.add(marketPostModel)
 
-        detailedPostModel = models.GlassesDetailed(
+        detailed_post_model = models.glasses_detailed(
             # postNumb=postNumber, # removed because it refs mkt table
             flagged=False,
             prescription=prescription_data,
-            pseudoPrescription=post.pseudoPrescription,
+            pseudo_prescription=post.pseudoPrescription,
             comment=post.comment,
             user=None, # will have to poll active user, update schema
             location=testCity,
             contact=testPhoneNumber,
-            postNumb=postNumber
+            post_numb=postNumber
         )
-        db.add(detailedPostModel)
+        db.add(detailed_post_model)
 
         for imagePath in imagePaths:
-            postImageModel = models.Images(
-                postNumb=postNumber,
-                imagePath=imagePath
+            post_image_model = models.images(
+                post_numb=postNumber,
+                image_path=imagePath
             )
-            db.add(postImageModel)
+            db.add(post_image_model)
 
         # Commit the transaction after both are added
         db.commit()
 
         # Refresh objects to reflect their database state
         db.refresh(marketPostModel)
-        db.refresh(detailedPostModel)
+        db.refresh(detailed_post_model)
 
         return JSONResponse(content={}, status_code=status.HTTP_201_CREATED)
     except Exception as e:
@@ -101,9 +101,8 @@ async def create_post(db: db_dependency, post: str = Form(...), images: List[Upl
     
 # retrieve list of links to images for image carousel    
 @router.get("/getImages/{postNumb}", status_code=status.HTTP_200_OK)
-async def get_images(postNumb: int, db:db_dependency):
-    images = db.query(models.Images).filter(models.Images.postNumb == postNumb).all()
-    # print(images, flush=True)
+async def get_images(postNumb: int, db:db_dependency) -> List[dict]:
+    images = db.query(models.images).filter(models.images.post_numb == postNumb).all()
     if len(images) == 0:
         raise HTTPException(status_code=404, detail="Could not find images for that listing")
-    return images
+    return serialize_with_schemas([singleImage.model_validate(image) for image in images])

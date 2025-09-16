@@ -1,9 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { BackendURL } from "../..";
 import { useLocation } from "react-router-dom";
-import { AuthContextType } from "../../interfaces";
-
-type User = string | null;
+import { AuthContextType, User } from "../../interfaces";
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
