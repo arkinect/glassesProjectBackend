@@ -102,8 +102,8 @@ def create_user(db: db_dependency, access_token: str):
     db_user = models.user(
         id=auth0_id,
         flags=0,
-        contact=userinfo["email"],
-        location=None,
+        default_contact=userinfo["email"],
+        default_location=None,
     )
     db.add(db_user)
     db.commit()

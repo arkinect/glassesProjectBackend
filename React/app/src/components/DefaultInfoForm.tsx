@@ -119,7 +119,11 @@ const DefaultInfoForm: React.FC<props> = ({}) => {
             return response.json();
         })
         .then(data => {
-            setFormData(data)
+            setFormData({
+                prescription: data.prescription || getEmptyPrescription(),
+                defaultLocation: data.defaultLocation || '',
+                defaultContact: data.defaultContact || ''
+            })
             console.log(formData)
         })
         .catch(error => setError(error.message));
